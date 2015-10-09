@@ -3,3 +3,6 @@
 *.sav
 *.rds
 *.RDS
+*.Rhistory
+*.RHistory
+*.DS_Store
