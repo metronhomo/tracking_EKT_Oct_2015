@@ -233,9 +233,3 @@ eval<-function(datos,ru){
 }
 
 eval(base_evap[,131],1)
-
-
-
-
-
-
