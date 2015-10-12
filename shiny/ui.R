@@ -7,21 +7,21 @@ shinyUI(navbarPage("", theme = shinytheme("flatly"),
                        3, wellPanel(
                          helpText('Selecciona las variables sobre las que quieres filtrar.'),
                          radioButtons(
-                           'filtrocat1', 
+                           'filtroEdad', 
                            label = h4('Edad'),
                            choices = list(
                              '25 - 35' = '25-35',
                              '36 - 55' = '36-55',
                              'Todos' = 'Todos')),
                          radioButtons(
-                           'filtrocat', 
+                           'filtroGen', 
                            label = h4('Género'),
                            choices = list(
                              'Masculino' = 'M',
                              'Femenino' = 'F',
                              'Todos' = 'TODOS')),
                          radioButtons(
-                           'filtrocat', 
+                           'filtroNiv', 
                            label = h4('Nivel'),
                            choices = list(
                              'AB' = 'AB',
@@ -33,14 +33,14 @@ shinyUI(navbarPage("", theme = shinytheme("flatly"),
                              'E' = 'E',
                              'Todos' = 'TODOS')),
                          radioButtons(
-                           'filtrocat', 
+                           'filtroTipoCliente', 
                            label = h4('Tipo de cliente'),
                            choices = list(
                              'Frecuente de Elektra' = 'El',
                              'Frecuente de la competencia' = 'Comp',
                              'Todos' = 'TODOS')),
                          radioButtons(
-                           'filtrocat', 
+                           'filtroTipoProducto', 
                            label = h4('Tipo de producto que compró en los últimos 12 meses'),
                            choices = list(
                              'Cómputo' = 'C',

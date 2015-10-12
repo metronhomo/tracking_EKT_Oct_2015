@@ -3,28 +3,28 @@ library(readxl)
 
 #Lectura de datos-----
 
-# data <- read_excel("Base_Final.xlsx",sheet=1)
-# data <- data[-1,]
-# 
-# base_con <- data %>%
-#         select(1,8,12:14,27:135)
-# 
-# saveRDS(base_con,"data/base_con.rds")
-# 
-# base_im <- data %>%
-#         select(1,8,12:14,136:273)
-# 
-# saveRDS(base_im,"data/base_im.rds")
-# 
-# base_eq <- data %>%
-#         select(1,8,12:14,274:315)
-# 
-# saveRDS(base_eq,"data/base_eq.rds")
-# 
-# base_evap <- data %>%
-#         select(1,8,12:14,316:455)
-# 
-# saveRDS(base_evap,"data/base_evap.rds")
+data <- read_excel("Base_Final.xlsx",sheet=1)
+data <- data[-1,]
+
+base_con <- data %>%
+        select(1,8,12:14,27:135)
+
+saveRDS(base_con,"data/base_con.rds")
+
+base_im <- data %>%
+        select(1,8,12:14,136:273)
+
+saveRDS(base_im,"data/base_im.rds")
+
+base_eq <- data %>%
+        select(1,8,12:14,274:315)
+
+saveRDS(base_eq,"data/base_eq.rds")
+
+base_evap <- data %>%
+        select(1,8,12:14,316:455)
+
+saveRDS(base_evap,"data/base_evap.rds")
 
 #Datos----
 base_con<-readRDS("data/base_con.rds")
