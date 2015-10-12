@@ -36,7 +36,8 @@ shinyUI(navbarPage("", theme = shinytheme("flatly"),
                        tabPanel("Sentimiento basado en el comercial"),
                        tabPanel("Afirmaciones sobre comercial")),
             tabPanel("Conclusiones"),
-            tabPanel("Contacto")
+            tabPanel("Contacto",
+                     column(12,imageOutput('contacto'),align="center"))
          
 
 ))
