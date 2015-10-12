@@ -1,11 +1,20 @@
 library(shiny)
 library(shinythemes)
 
-shinyUI(navbarPage("", theme = shinytheme("flatly"), 
+shinyUI(navbarPage("Tracking de marca", theme = shinytheme("flatly"), 
             tabPanel("Objetivo del estudio"),
             navbarMenu("Conocimiento y uso",
                        tabPanel("Top of Mind y espontáneo de marca",
-                                source('menu_graficas.R')),
+                                fluidPage(
+                                  column(
+                                    10,
+                                    source('menu_graficas.R'),
+                                  column(
+                                    10,
+                                    plotOutput("descriptivo",height=1000,width=1300),
+                                    align="center",
+                                    downloadButton('downloadFile', 'Descargar archivo'))
+                                  ))),
                        tabPanel("Top of mind y espontáneo de publicidad",
                                 source('menu_graficas.R')),
                        tabPanel("Conocimiento de logos",

@@ -20,21 +20,13 @@ fluidPage(
         'filtroNiv', 
         label = h4('Nivel'),
         choices = list(
-          'AB' = 'AB',
-          'C+' = 'C+',
-          'C' = 'C',
           'C-' = 'C-',
           'D+' = 'D+',
-          'D' = 'D',
-          'E' = 'E'),
+          'D' = 'D'),
         selected = c(
-          'AB',
-          'C+',
-          'C' ,
           'C-',
           'D+',
-          'D' ,
-          'E' )),
+          'D')),
       checkboxGroupInput(
         'filtroTipoCliente', 
         label = h4('Tipo de cliente'),
@@ -57,7 +49,24 @@ fluidPage(
           'LB',
           'M',
           'T')),
-      submitButton(text = "Graficar")
+      submitButton(text = "Graficar"),
+      wellPanel(
+        helpText("Selecciona la variable con la que quieres cruzar."),
+        selectInput(
+          "variable",
+          label = "",
+          choices = list(
+            "Total de cuartos en el hogar",
+            "Número de baños",
+            "Regadera funcional",
+            "Número de focos en la vivienda",
+            "Tipo de piso",
+            "Número de automóviles propios",
+            "Estufa de gas o eléctrica",
+            "Último año de estudios de jefe del hogar"
+          )
+        )
+      )
     )
   )
 )
