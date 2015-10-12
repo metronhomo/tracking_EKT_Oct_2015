@@ -133,7 +133,7 @@ attri <- function(df){
 # attri(base_evap[,c(115:128)])       
 
 # evaluacion de comerciales----
-eval<-function(datos,ru){
+evalua<-function(datos,ru){
   
   if(ru==1){
     Top <- cbind(prop.table((table(datos)))*100) %>%

@@ -3,8 +3,8 @@ library(readxl)
 
 #Lectura de datos-----
 
-data <- read_excel("Base_Final.xlsx",sheet=1)
-data <- data[-1,]
+data <- read.csv("./data/Base_Final.csv")
+# data <- data[-1,]
 
 base_con <- data %>%
         select(1,8,12:14,27:135)
