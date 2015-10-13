@@ -1,5 +1,4 @@
 library(dplyr)
-library(readxl)
 
 #Lectura de datos-----
 
