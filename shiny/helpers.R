@@ -170,7 +170,6 @@ evalua<-function(datos,ru){
 #Ejemplo de como correr la función
 #eval(base_evap[,131],1)
 
->>>>>>> Mario
 filtro<-function(df,variable,facet){
   if(facet=="Total"){
     df2 <- df %>%

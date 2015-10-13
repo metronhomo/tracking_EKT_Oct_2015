@@ -12,7 +12,7 @@ shinyServer(function(input, output,session){
       r_options<-eval(parse(text=paste('list(',paste('"',levels(datos1[,1]),'"="',levels(datos1[,1]),'"',
                                                      collapse=',',sep=''),')')))
     }else{
-      r_options<-"Total"
+      r_options <- "Total"
     }
     updateRadioButtons(session,'filtrocat',choices=r_options)
   })
