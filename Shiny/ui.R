@@ -125,7 +125,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               ),    
                               mainPanel(
                                 tabsetPanel(
-                                  tabPanel("Lugares en donde vió publicidad",
+                                  tabPanel("Lugares en donde vio publicidad",
                                            br(),
                                            br()),
                                            #column(4,plotOutput("",height=100,width=1300))),

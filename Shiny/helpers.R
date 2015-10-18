@@ -1,5 +1,63 @@
   #Helpers-------
 
+verifica_checkbox <- function(graphdata, panel_1 = FALSE, edad, genero, nivel, tipo_cliente, tipo_producto) {
+  if(panel_1) {
+    string_de_filtros <- c("Edad", "Género", "Nivel", "Tipo de cliente")
+    vec <- c(
+      length(edad),
+      length(genero),
+      length(nivel),
+      length(tipo_cliente)
+    )
+  }
+  else{
+    string_de_filtros <- c("Edad", "Género", "Nivel", "Tipo de cliente", "Tipo de producto")
+    vec <- c(
+      length(edad),
+      length(genero),
+      length(nivel),
+      length(tipo_cliente),
+      length(tipo_producto)
+    )
+  }
+  vec <- string_de_filtros[vec == 0]
+  validate(need(!is.null(graphdata), paste("Escoge al menos una variable del panel \"", vec, "\".")))
+}  
+  
+genera_data_p <- function(pregunta, 
+                          vector_string, 
+                          ru, 
+                          edad, 
+                          genero, 
+                          nivel, 
+                          tipo_cliente, 
+                          tipo_producto, 
+                          facet = "Total") {
+  a <- filtro(pregunta,
+              edad,
+              genero,
+              nivel,
+              tipo_cliente,
+              tipo_producto,
+              facet)
+  if(class(a) != "list") {
+    if(nrow(a) == 0) b = NULL
+    else b <- cuenta(a[, vector_string], ru)
+  }
+  else{
+    if(length(a) == 0) b = NULL
+    else {
+      b <- lapply(a, function(x)  cuenta(x[, vector_string], ru))
+      d <- lapply(1:length(b), function(i) {
+        d <- data.frame(Nivel = names(b)[i], b[[i]])
+      })
+      b <- rbind_all(d)
+    }
+  }
+  return(b)
+}
+
+  
 #Con esta función obtenemos histogramas para las preguntas:
 
 # ru = 1 cuando es una sola variable

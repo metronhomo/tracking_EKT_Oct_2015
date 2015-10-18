@@ -1,65 +1,9 @@
 # server.R
 library(shiny)
 
-verifica_checkbox <- function(graphdata, input, panel_1 = FALSE) {
-  if(panel_1) {
-    string_de_filtros <- c("Edad", "Género", "Nivel", "Tipo de cliente")
-    vec <- c(
-      length(input$filtroEdad1),
-      length(input$filtroGen1),
-      length(input$filtroNiv1),
-      length(input$filtroTipoCliente1)
-    )
-  }
-  else{
-    string_de_filtros <- c("Edad", "Género", "Nivel", "Tipo de cliente", "Tipo de producto")
-    vec <- c(
-      length(input$filtroEdad2),
-      length(input$filtroGen2),
-      length(input$filtroNiv2),
-      length(input$filtroTipoCliente2),
-      length(input$filtroTipoProducto2)
-    )
-  }
-  vec <- string_de_filtros[vec == 0]
-  validate(need(!is.null(graphdata), paste("Escoge al menos una variable del panel \"", vec, "\".")))
-  # validate(need(nrow(graphdata) <= 30, "Son demasiados filtros, por lo que la base es muy pequeña."))
-}
 
 shinyServer(function(input, output,session){
-  #  
-  #   #Para actualizar RadioButtons de la variable de cruce
-  #   observe({
-  #     if (input$filtrovar2 != 'Total'){
-  #       datos1 <- df %>%
-  #         dplyr::select(one_of(input$filtrovar2))
-  #       choices <- eval(parse(text = 
-  #                               paste('list(', paste('"', levels(datos1[ , 1]), '"="', levels(datos1[,1]),'"',
-  #                                                    collapse=',',sep=''),')'
-  #                               )
-  #       ))
-  #     } else{
-  #       choices <- 'Total'
-  #     }
-  #     updateRadioButtons(session, 'filtrocat2', choices = choices)
-  #   })
-  #   
-  #   observe({
-  #     if (input$filtrovar1 != 'Total'){
-  #       datos1 <- df %>%
-  #         dplyr::select(one_of(input$filtrovar1))
-  #       choices <- eval(parse(text = 
-  #                               paste('list(', paste('"', levels(datos1[ , 1]), '"="', levels(datos1[,1]),'"',
-  #                                                    collapse=',',sep=''),')'
-  #                               )
-  #       ))
-  #     } else{
-  #       choices <- 'Total'
-  #     }
-  #     updateRadioButtons(session, 'filtrocat1', choices = choices)
-  #   })
-  #   
-  
+ 
   #Tipo de producto U12 meses (P2)-----------
   
   data_p2 <- reactive({
@@ -89,7 +33,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p2 <- renderPlot({
     graphdata <- data_p2()
-    verifica_checkbox(graphdata, input, 1)
+    verifica_checkbox(graphdata, 1, 
+                      input$filtroEdad1,
+                      input$filtroGen1,
+                      input$filtroNiv1,
+                      input$filtroTipoCliente1,
+                      unique(df$P2_1))
     grafica_cuenta(graphdata, input$facet1)
   }, 
   height = 900, 
@@ -108,40 +57,28 @@ shinyServer(function(input, output,session){
   output$txt_p2 <- renderText(paste("Tamaño de base: ", tb_p2()[1],
                                   ". Esto es un tamaño de ",tb_p2()[3],".",sep=""))
   
-
-  genera_data_p <- function(pregunta, vector_string, ru) {
-    a <- filtro(pregunta,
-                input$filtroEdad2,
-                input$filtroGen2,
-                input$filtroNiv2,
-                input$filtroTipoCliente2,
-                input$filtroTipoProducto2,
-                input$facet2)
-    if(class(a) != "list") {
-      if(nrow(a) == 0) b = NULL
-      else b <- cuenta(a[, vector_string], ru)
-    }
-    else{
-      if(length(a) == 0) b = NULL
-      else {
-        b <- lapply(a, function(x)  cuenta(x[, vector_string], ru))
-        d <- lapply(1:length(b), function(i) {
-          d <- data.frame(Nivel = names(b)[i], b[[i]])
-        })
-        b <- rbind_all(d)
-      }
-    }
-    return(b)
-  }
-  
   ###### Pregunta 3
   
   data_p3_top <- reactive({
-    genera_data_p(p3_top, c("P3_Top", "F_3"), 1)
+    genera_data_p(p3_top, 
+                  c("P3_Top", "F_3"), 
+                  1,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   data_p3_share <- reactive({
-    genera_data_p(p3_share, c(11:22), 2)
+    genera_data_p(p3_share, c(11:22), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p3 <- reactive({
@@ -160,7 +97,12 @@ shinyServer(function(input, output,session){
   output$plot_p3 <- renderPlot({
     df_top <- data_p3_top()
     df_share <- data_p3_share()
-    verifica_checkbox(df_top, input)
+    verifica_checkbox(df_top, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_top_share(df_top, df_share, input$facet2)
   }, 
   height = 900, 
@@ -169,35 +111,27 @@ shinyServer(function(input, output,session){
   ###### Pregunta 4
   
   data_p4_top <- reactive({
-    genera_data_p(p4_Top, c("P4_Top", "F_3"), 1)
+    genera_data_p(p4_Top, 
+                  c("P4_Top", "F_3"), 
+                  1,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   data_p4_share <- reactive({
-    genera_data_p(p4_share, c(11:21), 2)
+    genera_data_p(p4_share, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
    
-#   output$plot_p4 <- renderPlot({
-#     df_top <- data_p4_top()
-#     df_share <- data_p4_share()
-#     verifica_checkbox(df_top, input)
-#     grafica_top_share(df_top, df_share, input$facet2)
-#   }, 
-#   height = 900, 
-#   width = 1000)
-#   
-#   
-#   data_p4_Share <- reactive({
-#     genera_data_p(p4_share, 11:20, 2)
-#   })
-#   
-#   output$plot_p4_Share <- renderPlot({
-#     graphdata <- data_p4_Share()
-#     verifica_checkbox(graphdata, input)
-#     grafica_cuenta(graphdata, input$facet2)
-#   }, 
-#   height = 900, 
-#   width = 1000)
-#   
   tb_p4<-reactive({
     b <- tam_base(p4_Top,
                   input$filtroEdad2,
@@ -214,7 +148,12 @@ shinyServer(function(input, output,session){
   output$plot_p4 <- renderPlot({
     df_top <- data_p4_top()
     df_share <- data_p4_share()
-    verifica_checkbox(df_top, input)
+    verifica_checkbox(df_top, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_top_share(df_top, df_share, input$facet2)
   }, 
   height = 900, 
@@ -222,7 +161,13 @@ shinyServer(function(input, output,session){
   
   #Logos (P5)----
   data_p5_Guiado <- reactive({
-    genera_data_p(p5_guiado, c(11:21), 2)
+    genera_data_p(p5_guiado, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p5<-reactive({
@@ -240,7 +185,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p5_Guiado <- renderPlot({
     graphdata <- data_p5_Guiado()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -249,7 +199,13 @@ shinyServer(function(input, output,session){
   #Recuerda haber visto publicidad (P6)----
   
   data_p6_Guiado <- reactive({
-    genera_data_p(p6_guiado, c(11:21), 2)
+    genera_data_p(p6_guiado, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p6<-reactive({
@@ -267,7 +223,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p6_Guiado <- renderPlot({
     graphdata <- data_p6_Guiado()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -276,7 +237,13 @@ shinyServer(function(input, output,session){
   #Marcas que considera par siguiente compra (P7)------
   
   data_p7 <- reactive({
-    genera_data_p(p7, c(11:21), 2)
+    genera_data_p(p7, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p7<-reactive({
@@ -294,7 +261,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p7 <- renderPlot({
     graphdata <- data_p7()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -303,7 +275,13 @@ shinyServer(function(input, output,session){
   #En que tiendas ha comprado últimamente (P8)-----
   
   data_p8<- reactive({
-    genera_data_p(p8, c(11:21), 2)
+    genera_data_p(p8, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p8<-reactive({
@@ -321,7 +299,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p8 <- renderPlot({
     graphdata <- data_p8()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -330,7 +313,13 @@ shinyServer(function(input, output,session){
   #En qué tiendas ha comprado U12
   
   data_p9 <- reactive({
-    genera_data_p(p7, c(11:21), 2)
+    genera_data_p(p7, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p9<-reactive({
@@ -348,7 +337,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p9 <- renderPlot({
     graphdata <- data_p9()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -357,7 +351,13 @@ shinyServer(function(input, output,session){
   #En cuales ha comprado alguna vez----
   
   data_p10 <- reactive({
-    genera_data_p(p10, c(11:21), 2)
+    genera_data_p(p10, c(11:21), 2,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p10<-reactive({
@@ -375,7 +375,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p10 <- renderPlot({
     graphdata <- data_p10()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -383,7 +388,13 @@ shinyServer(function(input, output,session){
   
   #En cuales compra con mayor frecuencia (P11)----
   data_p11 <- reactive({
-    genera_data_p(p11, c("P11", "F_3"), 1)
+    genera_data_p(p11, c("P11", "F_3"), 1,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p11<-reactive({
@@ -401,7 +412,12 @@ shinyServer(function(input, output,session){
   
   output$plot_p11 <- renderPlot({
     graphdata <- data_p11()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
@@ -410,7 +426,13 @@ shinyServer(function(input, output,session){
   #Si no comprara en su tienda más frecuente en cuál lo haría (P11a)------
   
   data_p11a<- reactive({
-    genera_data_p(p11a, c("P11a", "F_3"), 1)
+    genera_data_p(p11a, c("P11a", "F_3"), 1,
+                  input$filtroEdad2,
+                  input$filtroGen2,
+                  input$filtroNiv2,
+                  input$filtroTipoCliente2,
+                  input$filtroTipoProducto2,
+                  input$facet2)
   })
   
   tb_p11a<-reactive({
@@ -428,32 +450,57 @@ shinyServer(function(input, output,session){
   
   output$plot_p11a <- renderPlot({
     graphdata <- data_p11a()
-    verifica_checkbox(graphdata, input)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
     grafica_cuenta(graphdata, input$facet2)
   }, 
   height = 900, 
   width = 1000)
   
   data_p17 <- reactive({
-    genera_data_p(p17, c("P17", "F_3"), 1)
+    genera_data_p(p17, c("P17", "F_3"), 1,
+                  input$filtroEdad5,
+                  input$filtroGen5,
+                  input$filtroNiv5,
+                  input$filtroTipoCliente5,
+                  input$filtroTipoProducto5)
   })
   
   output$plot_p17 <- renderPlot({
     graphdata <- data_p17()
-    verifica_checkbox(graphdata, input)
-    grafica_cuenta(graphdata, input$facet2)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      input$filtroTipoProducto5)
+    grafica_cuenta(graphdata)
   }, 
   height = 900, 
   width = 1000)
   
   data_p20 <- reactive({
-    genera_data_p(p20, c("P_20", "F_3"), 1)
+    genera_data_p(p20, c("P20", "F_3"), 1,
+                  input$filtroEdad5,
+                  input$filtroGen5,
+                  input$filtroNiv5,
+                  input$filtroTipoCliente5,
+                  input$filtroTipoProducto5)
   })
   
   output$plot_p20 <- renderPlot({
     graphdata <- data_p20()
-    verifica_checkbox(graphdata, input)
-    grafica_cuenta(graphdata, input$facet2)
+    verifica_checkbox(graphdata, 0,
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      input$filtroTipoProducto5)
+    grafica_cuenta(graphdata)
   }, 
   height = 900, 
   width = 1000)
