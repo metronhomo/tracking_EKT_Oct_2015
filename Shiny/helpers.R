@@ -262,8 +262,9 @@ filtro <- function(df,
                  nivel=unique(df$NIVEL),
                  tipo_cliente=unique(df$Tipo_Cliente),
                  tipo_producto=unique(df$P2_1),
-                 facet = "Total"){
-  a <- df %>%
+                 facet = "Total",
+                 word_cloud = FALSE){
+  a <- df %>% mutate(idx = 1:nrow(.)) %>%
     filter(Edad %in% edad) %>%
     filter(Genero %in% genero) %>%
     filter(NIVEL %in% nivel)  %>%
@@ -278,6 +279,7 @@ filtro <- function(df,
                       list(facet = as.name(facet)))))
     names(a) <- niveles
   }
+  if(word_cloud) a <- a$idx
   return(a) 
 }
 
@@ -409,7 +411,7 @@ tam_base<-function(datos,edad,genero,nivel,tc,tp){
   return(list(round(n),color,txt))
 }
 
-nubes<-function(palabras_prohibidas,base){
+nubes<-function(palabras_prohibidas, base){
   #genera vector de la variable
   p<-VCorpus(VectorSource(na.omit(base)))
   

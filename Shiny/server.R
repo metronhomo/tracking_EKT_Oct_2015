@@ -580,26 +580,111 @@ shinyServer(function(input, output,session){
     }
   )
 
+  data_p16_1 <- reactive({
+    a <- filtro(base_evap,
+           input$filtroEdad5,
+           input$filtroGen5,
+           input$filtroNiv5,
+           input$filtroTipoCliente5,
+           input$filtroTipoProducto5,
+           "Total",
+           TRUE)
+    return(P16_1[a])
+  })
+  
   output$nube_P16_1 <- renderPlot({
-    nubes(palabras_prohibidas,P16_1)
+    graphdata <- data_p16_1()
+    if(length(graphdata) == 0) graphdata <- NULL
+    verifica_checkbox(graphdata, 1, 
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      unique(df$P2_1))
+    nubes(palabras_prohibidas, graphdata)
   },height = 1200, 
   width = 1200)
   
-  output$nube_P16_1 <- renderPlot({
-    nubes(palabras_prohibidas,P16A_1)
+#   output$nube_P16_1 <- renderPlot({
+#     nubes(palabras_prohibidas,P16A_1)
+#   },height = 1200, 
+#   width = 1200)
+  
+  data_p16a_1 <- reactive({
+    a <- filtro(base_evap,
+                input$filtroEdad5,
+                input$filtroGen5,
+                input$filtroNiv5,
+                input$filtroTipoCliente5,
+                input$filtroTipoProducto5,
+                "Total",
+                TRUE)
+    return(P16A_1[a])
+  })
+  
+  output$nube_P16A_1 <- renderPlot({
+    graphdata <- data_p16a_1()
+    if(length(graphdata) == 0) graphdata <- NULL
+    verifica_checkbox(graphdata, 1, 
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      unique(df$P2_1))
+    nubes(palabras_prohibidas, graphdata)
   },height = 1200, 
   width = 1200)
+  
+  data_p19_1 <- reactive({
+    a <- filtro(base_evap,
+                input$filtroEdad5,
+                input$filtroGen5,
+                input$filtroNiv5,
+                input$filtroTipoCliente5,
+                input$filtroTipoProducto5,
+                "Total",
+                TRUE)
+    return(P19_1[a])
+  })
                
-  output$nube_P19_1 <- renderPlot({
-    nubes(palabras_prohibidas,P19_1)
-  },height = 1200, 
-  width = 1200) 
-  
-  output$nube_P19A_1 <- renderPlot({
-    nubes(palabras_prohibidas,P19A_1)
+  output$nube_P19_1 <-  renderPlot({
+    graphdata <- data_p19_1()
+    if(length(graphdata) == 0) graphdata <- NULL
+    verifica_checkbox(graphdata, 1, 
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      unique(df$P2_1))
+    nubes(palabras_prohibidas, graphdata)
   },height = 1200, 
   width = 1200)
-                  
+  
+  data_p19a_1 <- reactive({
+    a <- filtro(base_evap,
+                input$filtroEdad5,
+                input$filtroGen5,
+                input$filtroNiv5,
+                input$filtroTipoCliente5,
+                input$filtroTipoProducto5,
+                "Total",
+                TRUE)
+    return(P19A_1[a])
+  })
+  
+  output$nube_P19A_1 <-  renderPlot({
+    graphdata <- data_p19a_1()
+    if(length(graphdata) == 0) graphdata <- NULL
+    verifica_checkbox(graphdata, 1, 
+                      input$filtroEdad5,
+                      input$filtroGen5,
+                      input$filtroNiv5,
+                      input$filtroTipoCliente5,
+                      unique(df$P2_1))
+    nubes(palabras_prohibidas, graphdata)
+  },height = 1200, 
+  width = 1200)
+  
                   
   #Información de contacto-----------
   output$contacto<-renderImage({
