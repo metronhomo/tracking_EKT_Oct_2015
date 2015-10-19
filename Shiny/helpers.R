@@ -396,8 +396,8 @@ grafica_top_share<-function(df_top, df_share, facet = "Total"){
   }
 }
 
-tam_base<-function(datos,edad,genero,nivel,tc,tp){
-  renglones<-nrow(datos)
+tam_base<-function(datos, edad, genero, nivel, tc, tp){
+  renglones <- nrow(datos)
   a <- filtro(datos,
               edad,
               genero,
@@ -433,7 +433,7 @@ nubes<-function(palabras_prohibidas, base){
   names(b)<-rownames(as.matrix(a))
   b<-sort(b,decreasing=T)
   
-  nube<-wordcloud(names(b),b,min.freq=1,scale=c(6,.2),max.word=Inf,
+  nube<-wordcloud(names(b),b,min.freq=1,scale=c(16,.1),max.word=Inf,
                   random.order=FALSE, rot.per=0.15, 
                   colors=brewer.pal(8, "Dark2"))
 
@@ -601,12 +601,12 @@ menu3<-function(){
         'filtroTipoProducto3', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electronica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
@@ -652,12 +652,12 @@ menu4<-function(){
         'filtroTipoProducto4', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electrónica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
@@ -703,12 +703,12 @@ menu5<-function(){
         'filtroTipoProducto5', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electrónica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
