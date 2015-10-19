@@ -21,7 +21,7 @@ verifica_checkbox <- function(graphdata, panel_1 = FALSE, edad, genero, nivel, t
     )
   }
   vec <- string_de_filtros[vec == 0]
-  validate(need(!is.null(graphdata), paste("Escoge al menos una variable del panel \"", vec, "\".")))
+  validate(need(!is.null(graphdata), paste("Escoge al menos una categoría de la variable \"", vec, "\".")))
 }  
   
 genera_data_p <- function(pregunta, 
@@ -262,8 +262,9 @@ filtro <- function(df,
                  nivel=unique(df$NIVEL),
                  tipo_cliente=unique(df$Tipo_Cliente),
                  tipo_producto=unique(df$P2_1),
-                 facet = "Total"){
-  a <- df %>%
+                 facet = "Total",
+                 word_cloud = FALSE){
+  a <- df %>% mutate(idx = 1:nrow(.)) %>%
     filter(Edad %in% edad) %>%
     filter(Genero %in% genero) %>%
     filter(NIVEL %in% nivel)  %>%
@@ -278,6 +279,7 @@ filtro <- function(df,
                       list(facet = as.name(facet)))))
     names(a) <- niveles
   }
+  if(word_cloud) a <- a$idx
   return(a) 
 }
 
@@ -394,8 +396,8 @@ grafica_top_share<-function(df_top, df_share, facet = "Total"){
   }
 }
 
-tam_base<-function(datos,edad,genero,nivel,tc,tp){
-  renglones<-nrow(datos)
+tam_base<-function(datos, edad, genero, nivel, tc, tp){
+  renglones <- nrow(datos)
   a <- filtro(datos,
               edad,
               genero,
@@ -409,7 +411,7 @@ tam_base<-function(datos,edad,genero,nivel,tc,tp){
   return(list(round(n),color,txt))
 }
 
-nubes<-function(palabras_prohibidas,base){
+nubes<-function(palabras_prohibidas, base){
   #genera vector de la variable
   p<-VCorpus(VectorSource(na.omit(base)))
   
@@ -431,7 +433,7 @@ nubes<-function(palabras_prohibidas,base){
   names(b)<-rownames(as.matrix(a))
   b<-sort(b,decreasing=T)
   
-  nube<-wordcloud(names(b),b,min.freq=1,scale=c(6,.2),max.word=Inf,
+  nube<-wordcloud(names(b),b,min.freq=1,scale=c(16,.1),max.word=Inf,
                   random.order=FALSE, rot.per=0.15, 
                   colors=brewer.pal(8, "Dark2"))
 
@@ -599,12 +601,12 @@ menu3<-function(){
         'filtroTipoProducto3', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electronica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
@@ -650,12 +652,12 @@ menu4<-function(){
         'filtroTipoProducto4', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electrónica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
@@ -701,12 +703,12 @@ menu5<-function(){
         'filtroTipoProducto5', 
         label = h4('Tipo de producto'),
         choices = list(
-          'Eléctronica' = 'Eléctronica',
+          'Electrónica' = 'Electrónica',
           'Línea Blanca' = 'Linea Blanca',
           'Telefonía' = "Telefonia",
           'Muebles' = 'Muebles',
           "Cómputo" = "Cómputo"),
-        selected = c('Eléctronica', 'Linea Blanca',
+        selected = c('Electrónica', 'Linea Blanca',
                      'Telefonia', 'Muebles',
                      'Cómputo'))
     )
