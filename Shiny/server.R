@@ -522,15 +522,10 @@ shinyServer(function(input, output,session){
                       input$filtroTipoCliente5,
                       input$filtroTipoProducto5)
     nubes(palabras_prohibidas, graphdata)
-  },height = 1200, 
-  width = 1200)
+  },height = 800, 
+  width = 1000)
   
-  #   output$nube_P16_1 <- renderPlot({
-  #     nubes(palabras_prohibidas,P16A_1)
-  #   },height = 1200, 
-  #   width = 1200)
-  
-  
+
   
   data_p16a_1 <- reactive({
     a <- filtro(base_evap,
@@ -554,8 +549,8 @@ shinyServer(function(input, output,session){
                       input$filtroTipoCliente5,
                       input$filtroTipoProducto5)
     nubes(palabras_prohibidas, graphdata)
-  },height = 1200, 
-  width = 1200)
+  },height = 800, 
+  width = 1000)
   
   
   data_p17 <- reactive({
@@ -602,8 +597,8 @@ shinyServer(function(input, output,session){
                       input$filtroTipoCliente5,
                       unique(df$P2_1))
     nubes(palabras_prohibidas, graphdata)
-  },height = 1200, 
-  width = 1200)
+  },height = 800, 
+  width = 1000)
   
   data_p19a_1 <- reactive({
     a <- filtro(base_evap,
@@ -627,8 +622,8 @@ shinyServer(function(input, output,session){
                       input$filtroTipoCliente5,
                       input$filtroTipoProducto5)
     nubes(palabras_prohibidas, graphdata)
-  },height = 1200, 
-  width = 1200)
+  },height = 800, 
+  width = 1000)
   
   data_p20 <- reactive({
     genera_data_p(p20, c("P20", "F_3"), 1,

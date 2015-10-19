@@ -63,7 +63,7 @@ genera_data_p <- function(pregunta,
 # ru = 1 cuando es una sola variable
 # ru = 2 cuando sea respuesta multiple
 
-cuenta<-function(datos,ru){
+cuenta <- function(datos,ru){
   
   if(ru==1){
     datos <- data.frame(datos)
@@ -71,11 +71,12 @@ cuenta<-function(datos,ru){
       xtabs(datos$F_3~c,data=select(datos, -F_3))
     })
     
-    Top<-data.frame(Top)
+    Top<-data.frame(Top) 
     colnames(Top) <- c("Conteo")
     Top <- cbind(linea= rownames(Top),Top) %>%
       mutate(Porcentaje=Conteo/sum(Conteo)) %>%
-      arrange(desc(Porcentaje))
+      arrange(desc(Porcentaje)) %>%
+      filter(linea != "")
     
     Top$linea <- factor(Top$linea,levels=unique(as.character(Top$linea)))
     
@@ -100,6 +101,7 @@ cuenta<-function(datos,ru){
     
     aux3<-rbind_all(aux) %>%
       filter(linea !="") %>%
+      filter(linea !=" ") %>%
       group_by(linea) %>%
       summarise(valor=sum(valor)) %>%
       mutate(Porcentaje=valor/sum(datos$F_3)) %>%
@@ -246,7 +248,8 @@ evaluacion<-function(datos,ru){
     })
     
     aux3<-Reduce('rbind',aux2) %>%
-      filter(linea !=" ") %>%
+      filter(linea != "") %>%
+      filter(linea != " ") %>%
       group_by(linea) %>%
       summarise(valor=sum(valor)) %>%
       mutate(Porcentaje=valor/nrow(base_con)) %>%
