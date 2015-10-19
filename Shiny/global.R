@@ -93,5 +93,6 @@ palabras_prohibidas=c('que','y','d?a','na','casi','lleva','llevas','elektraz','t
                       'porque','formas','veas','resiste','tomar','vez','debes', 'afor','supon','andes','podias','estas','saque','nosotros','alguna','cualquier','compre','dichos','llamar','busco','hacerle','adquirir','conozcan','cambia','cambien','armar',
                       'quiere','compras','obtienen','quiza','podria','comer','infla','daa','mejro','saquemos','eso','darle','tratan')
 
+load("./data/ws dimensiones.RData")
 
 # rm(base_con,base_im,base_evap,base_eq)

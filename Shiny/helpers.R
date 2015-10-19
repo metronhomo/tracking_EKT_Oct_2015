@@ -409,8 +409,8 @@ tam_base<-function(datos, edad, genero, nivel, tc, tp){
               tp,
               "Total")
   n<-sum(a$F_3)
-  ifelse(n<=15,color<-"red",color<-"black") 
-  ifelse(n<=15,txt<-"base chico",txt<-"base adecuado")
+  ifelse(n<=30,color<-"red",color<-"black") 
+  ifelse(n<=30,txt<-"base inadecuado para hacer inferencias",txt<-"base adecuado")
   return(list(round(n),color,txt))
 }
 
@@ -716,3 +716,56 @@ menu5<-function(){
                      'Cómputo'))
     )
   )}
+
+media.ponderada<-function(bateria,varprom,varseg,medias=NULL){
+  require(dplyr)
+  bateriat<-bateria %>%
+    select(one_of(varprom,varseg,'ponderador'))
+  for(i in 1:length(levels(bateriat[,2]))){
+    bateriatt<-bateriat[bateriat[,2]==levels(bateriat[,2])[i],]
+    medias<-c(medias,weighted.mean(bateriatt[,1],bateriatt[,3]))
+  }
+  medias
+}
+
+grafica_dimensiones<-function(bateria_subconjunto){
+  r1<-media.ponderada(bateria_subconjunto,'status','tienda')
+  r2<-media.ponderada(bateria_subconjunto,'post_venta','tienda')
+  r3<-media.ponderada(bateria_subconjunto,'basicos','tienda')
+  r4<-media.ponderada(bateria_subconjunto,'experiencia_en_tienda','tienda')
+  r5<-media.ponderada(bateria_subconjunto,'economia','tienda')
+  r6<-media.ponderada(bateria_subconjunto,'encontro_lo_que_buscaba','tienda')
+  r7<-media.ponderada(bateria_subconjunto,'atencionr','tienda')
+  
+  r<-rbind(r1,r2,r3,r4,r5,r6,r7)
+  r<-data.frame(r)
+  r$dimension<-c('Status','Post-Venta','Básicos','Experiencia en tienda','Economía',
+                 'Encontró lo que buscaba','Atención rápida')
+  
+  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  
+  
+  grafica_comparativa<-ggplot(data=r,aes(dimension,bodega))+
+    geom_hline(aes(yintercept=0),linetype='dotted',size=2)+
+    
+    geom_point(size=10,col='blue4')+
+    
+    geom_point(aes(dimension,coppel),size=10,col='cyan3')+
+    
+    geom_point(aes(dimension,elektra),size=10,col='red')+
+    geom_point(aes(dimension,famsa),size=10,col='green')+
+    
+    geom_point(aes(dimension,liverpool),size=10,col='orange')+
+    geom_point(aes(dimension,walmart),size=10,col='purple')+
+    
+    
+    
+    xlab('Dimensión')+
+    ylab('Diferencias')+
+    ggtitle('Score de conceptos por dimensión')
+  
+  
+  
+  return(grafica_comparativa)
+  
+}

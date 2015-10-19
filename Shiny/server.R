@@ -6,6 +6,14 @@ shinyServer(function(input, output,session){
  
   #Tipo de producto U12 meses (P2)-----------
   
+  #Información de contacto-----------
+  output$objetivo<-renderImage({
+    list(src='images/objetivo.png',
+         filetype='image/png',
+         alt='wiiii')
+  }, 
+  deleteFile = F)
+  
   data_p2 <- reactive({
     a <- filtro(p2,
                 input$filtroEdad1,
