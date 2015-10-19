@@ -21,7 +21,7 @@ verifica_checkbox <- function(graphdata, panel_1 = FALSE, edad, genero, nivel, t
     )
   }
   vec <- string_de_filtros[vec == 0]
-  validate(need(!is.null(graphdata), paste("Escoge al menos una variable del panel \"", vec, "\".")))
+  validate(need(!is.null(graphdata), paste("Escoge al menos una categoría de la variable \"", vec, "\".")))
 }  
   
 genera_data_p <- function(pregunta, 
