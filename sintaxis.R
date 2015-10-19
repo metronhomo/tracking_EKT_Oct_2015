@@ -3,26 +3,25 @@ library(readxl)
 
 #Lectura de datos-----
 
-data <- read.csv("./data/Base_Final.csv")
-# data <- data[-1,]
+df <- read.csv("./data/Base_Final.csv")
 
-base_con <- data %>%
-        select(1,8,12:14,27:135)
+base_con <- df %>%
+        select(1,8,12:15,24,27:135, 457)
 
 saveRDS(base_con,"data/base_con.rds")
 
-base_im <- data %>%
-        select(1,8,12:14,136:273)
+base_im <- df %>%
+        select(1,8,12:15,24,27:31,136:273, 457)
 
 saveRDS(base_im,"data/base_im.rds")
 
-base_eq <- data %>%
-        select(1,8,12:14,274:315)
+base_eq <- df %>%
+        select(1,8,12:15,24,27:31,274:315, 457)
 
 saveRDS(base_eq,"data/base_eq.rds")
 
-base_evap <- data %>%
-        select(1,8,12:14,316:455)
+base_evap <- df %>%
+        select(1,8,12:15,24,27:31,316:455, 457)
 
 saveRDS(base_evap,"data/base_evap.rds")
 
@@ -34,37 +33,54 @@ base_evap <- readRDS("data/base_evap.rds")
 
 # ru = 1 cuando es una sola variable
 # ru = 2 cuando sea respuesta multiple
+
 cuenta<-function(datos,ru){
-        
-        if(ru==1){
-        Top <- cbind(prop.table((table(datos)))*100) %>%
-        data.frame()
-        colnames(Top) <- c("Porcentaje")
-        Top <- cbind(linea= rownames(Top),Top)
-        return(Top)
-        }
-        
-        if(ru ==2){
-              
-        conteos<- apply(datos,2,function(c){
-                xtabs(~c,data=datos)
-        })
-        
-        aux<-data.frame()
-        aux2<-lapply(conteos,function(l){
-                n<-length(l)
-                rbind(aux,data.frame(linea=names(l),valor=as.numeric(l[1:n])))     
-        })
-        
-        aux3<-Reduce('rbind',aux2) %>%
-                filter(linea !=" ") %>%
-                group_by(linea) %>%
-                summarise(valor=sum(valor)) %>%
-                mutate(p_valor=valor/nrow(base_con)) %>%
-                data.frame() %>%
-                arrange(desc(p_valor))
-        return(aux3)
-        }    
+  
+  if(ru==1){
+    datos <- data.frame(datos)
+    Top <-  apply(datos,2,function(c){
+      xtabs(base_con$F_3~c,data=datos)
+    })
+    
+    Top<-data.frame(Top)
+    colnames(Top) <- c("Conteo")
+    Top <- cbind(linea= rownames(Top),Top) %>%
+      mutate(Porcentaje=Conteo/sum(Conteo)) %>%
+      arrange(desc(Porcentaje))
+    
+    Top$linea <- factor(Top$linea,levels=unique(as.character(Top$linea)))
+    
+    return(Top)
+  }
+  
+  if(ru ==2){
+    
+    conteos<- apply(datos,2,function(c){
+      xtabs(base_con$F_3 ~c,data=datos)
+    })
+    
+    aux<-data.frame()
+    aux<-lapply(conteos,function(l){
+      n<-length(l)
+      if(n!=0){
+        rbind(aux,data.frame(linea=as.character(names(l)),
+                             valor=as.numeric(l[1:n]),
+                             stringsAsFactors = F)) 
+      }
+    })
+    
+    aux3<-rbind_all(aux) %>%
+      filter(linea !=" ") %>%
+      group_by(linea) %>%
+      summarise(valor=sum(valor)) %>%
+      mutate(Porcentaje=valor/nrow(datos)) %>%
+      data.frame() %>%
+      arrange(desc(Porcentaje))
+    
+    aux3$linea <- factor(aux3$linea,levels=unique(as.character(aux3$linea)))
+    
+    return(aux3)
+  }
 }
 #Ejemplo de la función-----
 cuenta(base_con[,95:104],2)
