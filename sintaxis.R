@@ -1,5 +1,5 @@
 library(dplyr)
-library(readxl)
+# library(readxl)
 
 #Lectura de datos-----
 
@@ -82,8 +82,6 @@ cuenta<-function(datos,ru){
     return(aux3)
   }
 }
-#Ejemplo de la función-----
-cuenta(base_con[,95:104],2)
 
 # imagen de Marca
 gd <- function (mr){
