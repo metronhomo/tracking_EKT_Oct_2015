@@ -76,7 +76,8 @@ cuenta <- function(datos,ru){
     Top <- cbind(linea= rownames(Top),Top) %>%
       mutate(Porcentaje=Conteo/sum(Conteo)) %>%
       arrange(desc(Porcentaje)) %>%
-      filter(linea != "")
+      filter(linea != "") %>%
+      filter(linea != " ")
     
     Top$linea <- factor(Top$linea,levels=unique(as.character(Top$linea)))
     
