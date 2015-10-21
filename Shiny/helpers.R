@@ -409,7 +409,8 @@ tam_base<-function(datos, edad, genero, nivel, tc, tp){
               tc,
               tp,
               "Total")
-  n<-sum(a$F_3)
+  # n<-sum(a$F_3)
+  n <- nrow(a)
   ifelse(n<=30,color<-"red",color<-"black") 
   ifelse(n<=30,txt<-"base inadecuado para hacer inferencias",txt<-"base adecuado")
   return(list(round(n),color,txt))
@@ -835,6 +836,124 @@ grafica_bateria<-function(bateria_subconjunto){
     ggtitle('Porcentaje de menciones por concepto')+
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+  return(grafica_comparativa)
+  
+}
+
+
+grafica_bateria_equity<-function(bateria_subconjunto){
+  
+  basebis<- bateria_subconjunto %>%
+    select(one_of(c(names(bateria_subconjunto)[1:6]),'ponderador','tienda'))
+  
+  for(i in 1:7){
+    basebis[,i]<-as.numeric(basebis[,i])
+  }
+  
+  
+  nombres<-as.list(names(basebis)[1:6])
+  
+  r<-lapply(nombres,media.ponderada,basebis,'tienda')
+  
+  r<-do.call(rbind,r)
+  r<-as.data.frame(r)
+  r$dimension<-names(basebis)[1:6]
+  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  
+  
+  r$dimension<-factor(r$dimension,levels=r$dimension)
+  
+  
+  r2<-r %>%
+    tidyr::gather('concepto','valor',-dimension)
+  
+  
+  names(r2)<-c('dimensión','concepto','valor')
+  
+  
+  
+  
+  
+  grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
+    geom_point(aes(group=concepto),size=11) +
+    #geom_rect(aes(xmin=6.5, xmax=7.5, ymin=-Inf,ymax=Inf), alpha=0.005,fill='blue')+
+    
+    theme(
+      axis.text=element_text(size=16))+
+    
+    
+    geom_point(aes(colour=concepto,group=concepto),size=10) +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
+    
+    xlab('Variable') +
+    ylab('Promedio') +
+    ggtitle('Promedio de calificación por variable')+
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  
+  
+  
+  
+  
+  
+  return(grafica_comparativa)
+  
+}
+
+
+grafica_bateria_equity_score<-function(bateria_subconjunto){
+  
+  basebis<- bateria_subconjunto %>%
+    select(one_of(c(names(bateria_subconjunto)[7]),'ponderador','tienda'))
+  
+  
+  basebis[,1]<-as.numeric(basebis[,1])
+  
+  
+  
+  nombres<-as.list(names(basebis)[1])
+  
+  r<-lapply(nombres,media.ponderada,basebis,'tienda')
+  
+  r<-do.call(rbind,r)
+  r<-as.data.frame(r)
+  r$dimension<-names(basebis)[1]
+  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  
+  
+  r$dimension<-factor(r$dimension,levels=r$dimension)
+  
+  
+  r2<-r %>%
+    tidyr::gather('concepto','valor',-dimension)
+  
+  
+  names(r2)<-c('dimensión','concepto','valor')
+  
+  
+  
+  
+  
+  grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
+    #geom_hline(aes(yintercept=0),linetype='dotted',size=2) +
+    geom_point(aes(group=concepto),size=11) +
+    #geom_rect(aes(xmin=6.5, xmax=7.5, ymin=-Inf,ymax=Inf), alpha=0.005,fill='blue')+
+    
+    theme(
+      axis.text=element_text(size=16))+
+    
+    
+    geom_point(aes(colour=concepto,group=concepto),size=10) +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
+    
+    xlab('') +
+    ylab('') +
+    ggtitle('Equity score por tienda')
+  
+  
+  
+  
+  
+  
   return(grafica_comparativa)
   
 }

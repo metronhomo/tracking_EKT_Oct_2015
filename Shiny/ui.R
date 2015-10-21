@@ -90,17 +90,17 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 tabPanel('resultados de la batería',
                                          column(12,plotOutput('plotbateria',height=650),
                                                 wellPanel(h2('En esta gráfica se encuentran representados los porcentajes de asociación
-                                                         por marca para cada atributo..'))
-                                         )
-                                ),
+                                                             por marca para cada atributo..'))
+                                                )
+                                         ),
                                 tabPanel('resumen por dimensión',
                                          column(12,plotOutput('plotimagen',height=650),
                                                 wellPanel(h2('En esta imagen se encuentran resumidos los items de la batería en 7
-                                                    dimensiones principales. La línea punteada indica el score promedio de la población.'))
+                                                             dimensiones principales. La línea punteada indica el score promedio de la población.'))
+                                                )
                                          )
-                                )
                                 
-                              )
+                                )
                               )
                             )
                    ),
@@ -115,18 +115,23 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               ),    
                               mainPanel(
                                 tabsetPanel(
-                                  tabPanel("Score",
-                                           br(),
-                                           br()),
-                                           #column(4,plotOutput("",height=100,width=1300))),
+                                  tabPanel('score',
+                                           column(8,plotOutput('equitybateria',height=650),
+                                                  wellPanel(h2('bla bla equity'))
+                                           ),
+                                           column(4,plotOutput('equityscore',height=650),
+                                                  wellPanel(h2('bla bla equity'))
+                                           )
+                                  ),
+                                  #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Compra en el futuro",
                                            br(),
                                            br())
-                                           #column(4,plotOutput("",height=100,width=1300)))
+                                  #column(4,plotOutput("",height=100,width=1300)))
                                 )
                               )
                             )
-                    ),
+                   ),
                    tabPanel("Evaluación Publicitaria",
                             sidebarLayout(
                               sidebarPanel(

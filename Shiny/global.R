@@ -94,5 +94,6 @@ palabras_prohibidas=c('que','y','d?a','na','casi','lleva','llevas','elektraz','t
                       'quiere','compras','obtienen','quiza','podria','comer','infla','daa','mejro','saquemos','eso','darle','tratan')
 
 load("./data/ws dimensiones.RData")
+load("./data/ws equity.RData")
 
 # rm(base_con,base_im,base_evap,base_eq)

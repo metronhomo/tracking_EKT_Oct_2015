@@ -3,7 +3,7 @@ library(shiny)
 
 
 shinyServer(function(input, output,session){
- 
+  
   #Tipo de producto U12 meses (P2)-----------
   
   #Información de contacto-----------
@@ -13,6 +13,23 @@ shinyServer(function(input, output,session){
          alt='wiiii')
   }, 
   deleteFile = F)
+  
+  
+  output$d1 <- downloadHandler(
+    filename = "Base_Filtrada.csv",
+    content = function(file){
+      tabla2<-filtro(p2,
+                     input$filtroEdad1,
+                     input$filtroGen1,
+                     input$filtroNiv1,
+                     input$filtroTipoCliente1,
+                     unique(df$P2_1),
+                     input$facet1)
+      tabla3<-tabla2[,c('Genero','Edad','NIVEL','Tipo_Cliente')]
+      write.csv(tabla3,file,row.names=F)
+    }
+  )
+  
   
   data_p2 <- reactive({
     a <- filtro(p2,
@@ -63,7 +80,7 @@ shinyServer(function(input, output,session){
   })
   
   output$txt_p2 <- renderText(paste("Tamaño de base: ", tb_p2()[1],
-                                  ". Esto es un tamaño de ",tb_p2()[3],".",sep=""))
+                                    ". Esto es un tamaño de ",tb_p2()[3],".",sep=""))
   
   ###### Pregunta 3
   
@@ -139,7 +156,7 @@ shinyServer(function(input, output,session){
                   input$filtroTipoProducto2,
                   input$facet2)
   })
-   
+  
   tb_p4<-reactive({
     b <- tam_base(p4_Top,
                   input$filtroEdad2,
@@ -379,7 +396,7 @@ shinyServer(function(input, output,session){
   })
   
   output$txt_p10 <- renderText(paste("Tamaño de base: ", tb_p10()[1],
-                                    ". Esto es un tamaño de ",tb_p10()[3],".",sep=""))
+                                     ". Esto es un tamaño de ",tb_p10()[3],".",sep=""))
   
   output$plot_p10 <- renderPlot({
     graphdata <- data_p10()
@@ -416,7 +433,7 @@ shinyServer(function(input, output,session){
   })
   
   output$txt_p11 <- renderText(paste("Tamaño de base: ", tb_p11()[1],
-                                    ". Esto es un tamaño de ",tb_p11()[3],".",sep=""))
+                                     ". Esto es un tamaño de ",tb_p11()[3],".",sep=""))
   
   output$plot_p11 <- renderPlot({
     graphdata <- data_p11()
@@ -454,7 +471,7 @@ shinyServer(function(input, output,session){
   })
   
   output$txt_p11a <- renderText(paste("Tamaño de base: ", tb_p11a()[1],
-                                    ". Esto es un tamaño de ",tb_p11a()[3],".",sep=""))
+                                      ". Esto es un tamaño de ",tb_p11a()[3],".",sep=""))
   
   output$plot_p11a <- renderPlot({
     graphdata <- data_p11a()
@@ -469,15 +486,15 @@ shinyServer(function(input, output,session){
   height = 900, 
   width = 1000)
   
-#   tb_p16_1 <- reactive({
-#     b <- tam_base(base_evap,
-#                   input$filtroEdad5,
-#                   input$filtroGen5,
-#                   input$filtroNiv5,
-#                   input$filtroTipoCliente5,
-#                   input$filtroTipoProducto5)
-#     return(b)
-#   })
+  #   tb_p16_1 <- reactive({
+  #     b <- tam_base(base_evap,
+  #                   input$filtroEdad5,
+  #                   input$filtroGen5,
+  #                   input$filtroNiv5,
+  #                   input$filtroTipoCliente5,
+  #                   input$filtroTipoProducto5)
+  #     return(b)
+  #   })
   
   tb_tam_base_evap <- reactive({
     b <- tam_base(base_evap,
@@ -490,20 +507,20 @@ shinyServer(function(input, output,session){
   })
   
   output$txt_p16_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                    ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+                                       ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
   
   
   output$txt_p16a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                       ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
-  
-  output$txt_p17 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
                                         ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
   
-  output$txt_p19_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
+  output$txt_p17 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
                                      ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
   
+  output$txt_p19_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
+                                       ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  
   output$txt_p19a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                     ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+                                        ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
   
   output$txt_p20 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
                                      ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
@@ -533,7 +550,7 @@ shinyServer(function(input, output,session){
   },height = 800, 
   width = 1000)
   
-
+  
   
   data_p16a_1 <- reactive({
     a <- filtro(base_evap,
@@ -655,20 +672,6 @@ shinyServer(function(input, output,session){
   height = 900, 
   width = 1000)
   
-  output$d1 <- downloadHandler(
-    filename = "Base_Filtrada.csv",
-    content = function(file){
-      tabla2<-filtro(df,
-                     input$filtroEdad1,
-                     input$filtroGen1,
-                     input$filtroNiv1,
-                     input$filtroTipoCliente1,
-                     input$filtroTipoProducto1,
-                     input$facet1)
-      tabla3<-tabla2[,c('Genero','Edad','NIVEL','Tipo_Cliente')]
-      write.csv(tabla3,file,row.names=F)
-    }
-  )
   
   output$d2 <- downloadHandler(
     filename = "Base_Filtrada.csv",
@@ -728,7 +731,7 @@ shinyServer(function(input, output,session){
       write.csv(tabla3,file,row.names=F)
     }
   )
-
+  
   
   #Información de contacto-----------
   output$contacto<-renderImage({
@@ -758,6 +761,26 @@ shinyServer(function(input, output,session){
   output$plotbateria<-renderPlot({
     datos<-data_plotimagen()
     grafica_bateria(datos)
+  })
+  
+  data_plotequity <- reactive({
+    bateriab<-filtro(dfequity,
+                     input$filtroEdad4,
+                     input$filtroGen4,
+                     input$filtroNiv4,
+                     input$filtroTipoCliente4,
+                     input$filtroTipoProducto4)
+    return(bateriab)
+  })
+  
+  output$equitybateria<-renderPlot({
+    datos<-data_plotequity()
+    grafica_bateria_equity(datos)
+  })
+  
+  output$equityscore<-renderPlot({
+    datos<-data_plotequity()
+    grafica_bateria_equity_score(datos)
   })
   
 })
