@@ -77,21 +77,33 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               )
                             )
                    ),
-                  tabPanel("Imagen de Marca",
-                           sidebarLayout(
-                             sidebarPanel(
-                               menu3(),
-                               conditionalPanel(condition ="assert:<output.contenido>",
-                                                downloadButton('d3',
-                                                               'Descarga la base filtrada')
-                               )
-                             ),
-                             mainPanel(
-                               #column(4,
-                              #        plotOutput("plot_p2",height=1000,width=1300)
-                               )
-                             )
-                           ),
+                   tabPanel("Imagen de Marca",
+                            sidebarLayout(
+                              sidebarPanel(
+                                menu3(),
+                                conditionalPanel(condition ="assert:<output.contenido>",
+                                                 downloadButton('d3',
+                                                                'Descarga la base filtrada')
+                                )
+                              ),
+                              mainPanel(tabsetPanel(
+                                tabPanel('resultados de la batería',
+                                         column(12,plotOutput('plotbateria',height=650),
+                                                wellPanel(h2('En esta gráfica se encuentran representados los porcentajes de asociación
+                                                         por marca para cada atributo..'))
+                                         )
+                                ),
+                                tabPanel('resumen por dimensión',
+                                         column(12,plotOutput('plotimagen',height=650),
+                                                wellPanel(h2('En esta imagen se encuentran resumidos los items de la batería en 7
+                                                    dimensiones principales. La línea punteada indica el score promedio de la población.'))
+                                         )
+                                )
+                                
+                              )
+                              )
+                            )
+                   ),
                    tabPanel("Equity",
                             sidebarLayout(
                               sidebarPanel(

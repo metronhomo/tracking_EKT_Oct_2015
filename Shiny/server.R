@@ -740,4 +740,24 @@ shinyServer(function(input, output,session){
   }, 
   deleteFile = F)
   
+  output$plotimagen<-renderPlot({
+    datos<-data_plotimagen()
+    grafica_dimensiones(datos)
+  })
+  
+  data_plotimagen <- reactive({
+    bateriab<-filtro(bateria,
+                     input$filtroEdad3,
+                     input$filtroGen3,
+                     input$filtroNiv3,
+                     input$filtroTipoCliente3,
+                     input$filtroTipoProducto3)
+    return(bateriab)
+  })
+  
+  output$plotbateria<-renderPlot({
+    datos<-data_plotimagen()
+    grafica_bateria(datos)
+  })
+  
 })

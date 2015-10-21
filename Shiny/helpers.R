@@ -717,7 +717,7 @@ menu5<-function(){
     )
   )}
 
-media.ponderada<-function(bateria,varprom,varseg,medias=NULL){
+media.ponderada<-function(varprom,bateria,varseg,medias=NULL){
   require(dplyr)
   bateriat<-bateria %>%
     select(one_of(varprom,varseg,'ponderador'))
@@ -729,13 +729,13 @@ media.ponderada<-function(bateria,varprom,varseg,medias=NULL){
 }
 
 grafica_dimensiones<-function(bateria_subconjunto){
-  r1<-media.ponderada(bateria_subconjunto,'status','tienda')
-  r2<-media.ponderada(bateria_subconjunto,'post_venta','tienda')
-  r3<-media.ponderada(bateria_subconjunto,'basicos','tienda')
-  r4<-media.ponderada(bateria_subconjunto,'experiencia_en_tienda','tienda')
-  r5<-media.ponderada(bateria_subconjunto,'economia','tienda')
-  r6<-media.ponderada(bateria_subconjunto,'encontro_lo_que_buscaba','tienda')
-  r7<-media.ponderada(bateria_subconjunto,'atencionr','tienda')
+  r1<-media.ponderada('status',bateria_subconjunto,'tienda')
+  r2<-media.ponderada('post_venta',bateria_subconjunto,'tienda')
+  r3<-media.ponderada('basicos',bateria_subconjunto,'tienda')
+  r4<-media.ponderada('experiencia_en_tienda',bateria_subconjunto,'tienda')
+  r5<-media.ponderada('economia',bateria_subconjunto,'tienda')
+  r6<-media.ponderada('encontro_lo_que_buscaba',bateria_subconjunto,'tienda')
+  r7<-media.ponderada('atencionr',bateria_subconjunto,'tienda')
   
   r<-rbind(r1,r2,r3,r4,r5,r6,r7)
   r<-data.frame(r)
@@ -744,28 +744,96 @@ grafica_dimensiones<-function(bateria_subconjunto){
   
   names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
   
+  r2<-r %>%
+    tidyr::gather('concepto','valor',-dimension)
   
-  grafica_comparativa<-ggplot(data=r,aes(dimension,bodega))+
-    geom_hline(aes(yintercept=0),linetype='dotted',size=2)+
+  
+  names(r2)<-c('dimensión','concepto','valor')
+  
+  
+  grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
+    geom_point(aes(group=concepto),size=11) +
+    geom_hline(aes(yintercept=0),linetype='dotted',size=2) +
+    geom_point(aes(colour=concepto,group=concepto),size=10) +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
     
-    geom_point(size=10,col='blue4')+
-    
-    geom_point(aes(dimension,coppel),size=10,col='cyan3')+
-    
-    geom_point(aes(dimension,elektra),size=10,col='red')+
-    geom_point(aes(dimension,famsa),size=10,col='green')+
-    
-    geom_point(aes(dimension,liverpool),size=10,col='orange')+
-    geom_point(aes(dimension,walmart),size=10,col='purple')+
-    
-    
-    
-    xlab('Dimensión')+
-    ylab('Diferencias')+
+    xlab('Dimensión') +
+    ylab('Diferencias') +
     ggtitle('Score de conceptos por dimensión')
   
   
   
+  
+  
+  
+  
+  return(grafica_comparativa)
+  
+}
+
+
+
+grafica_bateria<-function(bateria_subconjunto){
+  
+  basebis<- bateria_subconjunto %>%
+    select(one_of(c(names(bateria_subconjunto)[1:22]),'ponderador','tienda'))
+  
+  for(i in 1:22){
+    basebis[,i]<-as.numeric(basebis[,i])
+  }
+  
+  
+  nombres<-as.list(names(basebis)[1:22])
+  
+  r<-lapply(nombres,media.ponderada,basebis,'tienda')
+  
+  r<-do.call(rbind,r)
+  r<-as.data.frame(r)
+  r$dimension<-names(basebis)[1:22]
+  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  
+  
+  r<-r[c(22,
+         1,5,
+         2,6,17,
+         8,9,10,
+         12,4,20,19,18,11,
+         16,7,13,3,
+         15,14,21),]
+  
+  r$dimension<-factor(r$dimension,levels=r$dimension)
+  
+  
+  r2<-r %>%
+    tidyr::gather('concepto','valor',-dimension)
+  
+  
+  names(r2)<-c('dimensión','concepto','valor')
+  
+  
+  
+  r2[,3]<-(r2[,3]-1)*100
+  
+  
+  
+  grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
+    geom_point(aes(group=concepto),size=11) +
+
+    geom_rect(aes(xmin=1.5, xmax=3.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
+
+    geom_rect(aes(xmin=6.5, xmax=9.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
+ 
+    geom_rect(aes(xmin=15.5, xmax=19.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
+    theme(panel.grid.major = element_line(colour = "gray50"),
+          panel.grid.minor = element_line(colour = "gray50"),
+          axis.text=element_text(size=16))+
+    geom_point(aes(colour=concepto,group=concepto),size=10) +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
+    xlab('Concepto') +
+    ylab('Porcentaje de menciones') +
+    ggtitle('Porcentaje de menciones por concepto')+
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
   return(grafica_comparativa)
   
 }
