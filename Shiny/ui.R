@@ -73,7 +73,11 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   tabPanel("Alternativa de compra",
                                            h3(textOutput("txt_p11a"),align="center"),
                                            br(),
-                                           column(4,plotOutput("plot_p11a",height=100,width=1300)),align="center")
+                                           column(4,plotOutput("plot_p11a",height=100,width=1300)),align="center"),
+                                  tabPanel("Uso frecuente vs alternativa de compra",
+                                           #h3(textOutput("txt_p11a"),align="center"),
+                                           br(),
+                                           column(4,plotOutput("plot_p11_vs_p11a",height=100,width=1300)),align="center")
                                   
                                 )
                               )
@@ -93,7 +97,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 tabPanel('Resultados de la batería',
                                          column(12,plotOutput('plotbateria',height=750),
                                                 wellPanel(h2('En esta gráfica se encuentran representados los porcentajes de asociación
-                                                             por marca para cada atributo..',align="left"),align="center")
+                                                             por marca para cada atributo.',align="left"),align="center")
                                                 )
                                          ),
                                 tabPanel('resumen por dimensión',

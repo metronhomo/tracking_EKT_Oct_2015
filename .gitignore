@@ -10,3 +10,4 @@
 *.Rdata
 *.rdata
 Shiny/rsconnect/*
+Genera_bases_wordcloud/*

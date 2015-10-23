@@ -496,6 +496,58 @@ shinyServer(function(input, output,session){
   #     return(b)
   #   })
   
+  data_p11_vs_p11a <- reactive({
+    p11_f <- filtro(p11,
+                input$filtroEdad1,
+                input$filtroGen1,
+                input$filtroNiv1,
+                input$filtroTipoCliente1,
+                unique(df$P2_1),
+                input$facet1)
+    
+    p11a_f <- filtro(p11a,
+                    input$filtroEdad1,
+                    input$filtroGen1,
+                    input$filtroNiv1,
+                    input$filtroTipoCliente1,
+                    unique(df$P2_1),
+                    input$facet1)
+    list(p11_f, p11a_f)
+  })
+  
+  output$plot_p11_vs_p11a <- renderPlot({
+    datos_p11 <- data_p11_vs_p11a()[[1]]
+    datos_p11a <- data_p11_vs_p11a()[[2]]
+    verifica_checkbox(datos_p11, 0,
+                      input$filtroEdad2,
+                      input$filtroGen2,
+                      input$filtroNiv2,
+                      input$filtroTipoCliente2,
+                      input$filtroTipoProducto2)
+    graphdata <- inner_join(datos_p11, datos_p11a) %>% 
+      group_by(P11, P11a) %>% 
+      summarise(n = ceil(sum(F_3))) %>%
+      rename(Uso_actual = P11, Segunda_opcion = P11a)
+    ggplot(graphdata) + 
+      geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), stat = 'identity') +
+      scale_fill_manual(values = 
+                          c("forestgreen",
+                            "blue",
+                            "goldenrod1",
+                            "red",
+                            "royalblue4",
+                            "deeppink",
+                            "black",
+                            "grey",
+                            "chartreuse4",
+                            "chartreuse2",
+                            "chartreuse3",
+                            "dodgerblue2"))
+  }, 
+  height = 900, 
+  width = 1000)
+  
+  
   tb_tam_base_evap <- reactive({
     b <- tam_base(base_evap,
                   input$filtroEdad5,

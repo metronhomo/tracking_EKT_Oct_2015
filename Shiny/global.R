@@ -1,3 +1,5 @@
+options("encoding" = "UTF-8")
+
 library(shiny)
 library(knitr)
 library(tidyr)
@@ -80,24 +82,38 @@ P16A_1 <- readRDS("data/P16A_1.RDS")
 P19_1 <- readRDS("data/P19_1.RDS")
 P19A_1 <- readRDS("data/P19A_1.RDS")
 
-palabras_prohibidas=c('que','y','d?a','na','casi','lleva','llevas','elektraz','traia','quehacer','elktra','asta','paratoda','fua','ello','ningun','trae','tenias','hay','en','vi','vio','obtener','s','compra','con','la','un','una','unos','uno','etc','era','eran','desde','cada','mismo','hacia','hasta','para','por','cual','asi','as?','algo','tu','tus','sale','van','daban','esta','estos','esa','esas','llega','recuerdo','veia','compren','paa','sobra','dejes',
-                      'comprar','ah?','d?as','muy','dos','dio','ninguna','nada','las','como','dec?a','ellos','no','dejemos','de','rosa','rojo','mejoraba','grande','grandes','toda','todo','esto','tenia','solo','podia','pod?a','puedo','pueden','puedes','aqu?','dar','solamente','compres','tenga','compraras',
-                      'comprando','atend?as','entrando', 'ten?a','ofrecen','sacar','viendo','ademas','acuerdo','bonita','escucho','ver','escuchando','hace','hacen','sobre','a','hay','desde','tienen','todos','varias','bien','vende','dando','dandose','darles','darlo','lla','terminas',
-                      'usar','vender','probar','mas','m?s','siempre','que','los','las','ofrecen','sin','ir','m?s','estar','tanto','es','esa','via','cuentan','estan','saliendo','unas','estaban','tipos','ademas','pasaban','decia','despues','despu?s','podemos','estaba','pasando','tinen',
+palabras_prohibidas=c('que','y','na','casi','lleva','llevas','elektraz','traia','quehacer','elktra','asta','paratoda','fua','ello','ningun','trae','tenias','hay','en','vi','vio','obtener','s','compra','con','la','un','una','unos','uno','etc','era','eran','desde','cada','mismo','hacia','hasta','para','por','cual','asi','así',
+                      'algo','tu','tus','sale','van','daban','esta','estos','esa','esas','llega','recuerdo','veia','compren','paa','sobra','dejes',
+                      'comprar','ahí','ahi','días','pudes','otras','días','muy','dos','dio','ninguna','nada','las','como','decía','ellos','no','dejemos','de','rosa','rojo','mejoraba','grande','grandes','toda','todo','esto','tenia','solo','podia','podía','puedo','pueden','puedes','aquí','dar','solamente','compres','tenga','compraras',
+                      'comprando','atendías','entrando', 'tenía','ofrecen','sacar','viendo','ademas','acuerdo','bonita','escucho','ver','escuchando','hace','hacen','sobre','a','hay','desde','tienen','todos','varias','bien','vende','dando','dandose','darles','darlo','lla','terminas',
+                      'usar','vender','probar','mas','más','siempre','que','los','las','ofrecen','sin','ir','más','estar','tanto','es','esa','via','cuentan','estan','saliendo','unas','estaban','tipos','ademas','pasaban','decia','despues','después','podemos','estaba','pasando','tinen',
                       'alli','hacerte','poner','quieras','haya','dicho','vayas','quede','pensar','pidamos','tal','venden','nadie','misma','demas','dicho','poner','formando','compras','diciendo','hacer','pedir','verce','hacerquen','cuestion','agarra','plansirve','sacan','amarillodistintos',
-                      'decian','una','sus','del','para','son','muchas','muchos','mucha','mucho','dice','dicen','decian','dec?an','dijeron','salen','decir','dan','tanta','entra','ven','habia','pasan','llevar','abre','salia','salian','azul','azules','color','colores','sonaba','mitad','temporada',
-                      'venta','menos','gran','elelektra','elektra','mi','est?','obetener','obtener','haciendo','vio','aqui','otro','cuento','todas','cuanto','tiene','dentro','entre','llevas','donde','usando','uso','final','mostras','opci?n','encontrar','encuentras','terminas','convencer','convenser',
-                      'coppel','buena','bueno','buenos','buenas','union','blancas','ofrecen','busques','podria','podriamos','salimos','deberian','cambiarse','ofreciendote','aunque','mantenerme','enganchan','tama?a','estoy','usted','aserte','tengan','manejan','sucia','llame','hacernos',
-                      'les','coopel','tenian','entrar','visto','pasaron','ella','dia','buen','viste','tipo','igual','veo','mano','seg?n','veian','pues','ahora','tambien','algunos','este','vacio','tienes','llevarte',
+                      'decian','una','sus','del','para','son','muchas','muchos','mucha','mucho','dice','dicen','decian','decían','dijeron','salen','decir','dan','tanta','entra','ven','habia','pasan','llevar','abre','salia','salian','azul','azules','color','colores','sonaba','mitad','temporada',
+                      'venta','menos','gran','elelektra','elektra','mi','está','obetener','obtener','haciendo','vio','aqui','otro','cuento','todas','cuanto','tiene','dentro','entre','llevas','donde','usando','uso','final','mostras','opción','encontrar','encuentras','terminas','convencer','convenser',
+                      'coppel','buena','bueno','buenos','buenas','union','blancas','ofrecen','busques','podria','podriamos','salimos','deberian','cambiarse','ofreciendote','aunque','mantenerme','enganchan','tamaña','estoy','usted','aserte','tengan','manejan','sucia','llame','hacernos',
+                      'les','coopel','tenian','entrar','visto','pasaron','ella','dia','buen','viste','tipo','igual','veo','mano','según','veian','pues','ahora','tambien','algunos','este','vacio','tienes','llevarte',
                       'estes','llama','pasar','decirle','mis','darnos','tan','vistas','querer','ser','saber','obtien','sepan','junto','lugar','tengas','seres','vean','darme','tener','seria','pase','otras','atraer','durante','hagan','hablan','comun','vea',
                       'ellas','llegar','vayan','rato','cambiar','trato','tengamos','tratar','tran','invitan','quieren','nos','vaya','hacer','irlas','cas','creo','acerte','puede','mostrarle','lados','nuestras','nuestro','ofrecer','copel','quienes','atraes',
                       'porque','formas','veas','resiste','tomar','vez','debes', 'afor','supon','andes','podias','estas','saque','nosotros','alguna','cualquier','compre','dichos','llamar','busco','hacerle','adquirir','conozcan','cambia','cambien','armar',
                       'quiere','compras','obtienen','quiza','podria','comer','infla','daa','mejro','saquemos','eso','darle','tratan')
 
-
 load("./data/ws dimensiones.RData")
 load("./data/ws equity.RData")
-names(dfequity)[6] <- "Valor por su dinero"
+# names(dfequity)[6] <- "valor por su dinero"
+names(dfequity)[1:6] <- c("Familiarizado con esta marca",
+  "La marca tiene algo especial",
+  "Va con mi personalidad y me entiende",
+  "Mucha gente la usa",
+  "Tiene alta calidad",
+  "Valor por su dinero")
+#   "Score equity",
+#   "Tienda",
+#   "Edad",
+#   "Tipo de Cliente",
+#   "Tipo de producto",
+#   "Género",
+#   "Nivel",
+#   "Ponderador")
 
 # rm(base_con,base_im,base_evap,base_eq)
 
