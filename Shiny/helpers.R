@@ -57,7 +57,6 @@ genera_data_p <- function(pregunta,
   return(b)
 }
 
-  
 #Con esta función obtenemos histogramas para las preguntas:
 
 # ru = 1 cuando es una sola variable
@@ -160,7 +159,6 @@ p14 <- function(data){
   
   return(aux)
 }
-
 
 # Ejemplo de como correr la función
 # preg <-base_eq[,c(42:47)]
@@ -299,7 +297,9 @@ grafica_cuenta <- function(df, facet = "Total"){
             panel.background=element_rect(fill='#C2D1E0'),
             strip.background=element_rect(fill="#2c3e50"),
             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
-            strip.text.x = element_text(colour = 'white', size = 22)) +
+            strip.text.x = element_text(colour = 'white', size = 22),
+            legend.text=element_text(size=24),
+            legend.title=element_blank()) +
       scale_y_continuous(labels=percent) +
       ylab("") + xlab("")
   }
@@ -314,7 +314,9 @@ grafica_cuenta <- function(df, facet = "Total"){
             panel.background=element_rect(fill='#C2D1E0'),
             strip.background=element_rect(fill="#2c3e50"),
             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
-            strip.text.x = element_text(colour = 'white', size = 22)) +
+            strip.text.x = element_text(colour = 'white', size = 22),
+            legend.text=element_text(size=24),
+            legend.title=element_blank()) +
       scale_y_continuous(labels = percent) +
       ylab("") + xlab("")
   }
@@ -328,22 +330,22 @@ grafica_top_share<-function(df_top, df_share, facet = "Total"){
     l1<-unique(as.character(df_top$linea))
     l2<-unique(as.character(df_share$linea))
     l3<-data.frame(linea=unique(c(l1,l2)),stringsAsFactors = F)
-    
-    aux1 <- l3 %>%
-      left_join(df_top,by="linea") 
-    
-    aux1$linea<-factor(aux1$linea,levels=as.character(aux1$linea))
-    
+
     aux2 <- l3 %>%
-      left_join(df_share,by="linea")
+      left_join(df_share,by="linea") %>% arrange(desc(Porcentaje))
     
     aux2$linea<-factor(aux2$linea,levels=as.character(aux2$linea))
+    
+    aux1 <- l3 %>%
+      left_join(df_top,by="linea")
+    
+    aux1$linea<-factor(aux1$linea,levels=as.character(aux2$linea))
     
     ggplot() +
       geom_bar(data=aux2,aes(x=linea,y=Porcentaje,fill="Share"),stat="identity",colour="black") +
       geom_text(data=aux2,aes(x=linea,y=Porcentaje + .03 ,label=paste0(round(Porcentaje*100),"%")),
                 colour='black',size=6) +
-      geom_bar(data=aux1,aes(x=linea,y=Porcentaje,fill="Top"),stat="identity",colour="black") +
+      geom_bar(data=aux1,aes(x=linea,y=Porcentaje,fill="Top"), alpha=0.4,stat="identity",colour="black") +
       geom_text(data=aux1,aes(x=linea,y=Porcentaje - .05 ,label=paste0(round(Porcentaje*100),"%")),
                 colour="#2c3e50",size=6) +
       theme(axis.text.x=element_text(angle=90,size=22),
@@ -351,7 +353,9 @@ grafica_top_share<-function(df_top, df_share, facet = "Total"){
             panel.background=element_rect(fill='#C2D1E0'),
             strip.background=element_rect(fill="#2c3e50"),
             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
-            strip.text.x = element_text(colour = 'white', size = 22)) +
+            strip.text.x = element_text(colour = 'white', size = 22),
+            legend.text=element_text(size=24),
+            legend.title=element_blank()) +
       scale_y_continuous(labels=percent) +
       scale_fill_manual(name="Tipo",
                           values=c(Share="#2c3e50", Top="#C2D1E0")) +
@@ -366,36 +370,136 @@ grafica_top_share<-function(df_top, df_share, facet = "Total"){
     l2<-unique(as.character(df_share$linea))
     l3<-data.frame(linea=unique(c(l1,l2)),stringsAsFactors = F)
     
-    aux1 <- l3 %>%
-      left_join(df_top,by="linea") 
-    
-    aux1$linea<-factor(aux1$linea,levels=as.character(aux1$linea))
-    
     aux2 <- l3 %>%
-      left_join(df_share,by="linea")
+      left_join(df_share,by="linea") %>% arrange(desc(Porcentaje))
     
     aux2$linea<-factor(aux2$linea,levels=as.character(aux2$linea))
     
-    names(aux1) <- c("linea", "Nivel", "Conteo", "Porcentaje", "Tipo")
-    names(aux2) <- c("linea", "Nivel", "Conteo", "Porcentaje", "Tipo")
+    aux1 <- l3 %>%
+      left_join(df_top,by="linea")
     
-    aux_r <- rbind(aux1, aux2) %>% filter(complete.cases(.))
+    aux1$linea<-factor(aux1$linea,levels=as.character(aux2$linea))
     
-    ggplot(aux_r) +
-      geom_bar(aes(x = linea, y = Porcentaje, fill = Tipo), stat="identity", colour="black") +
-      facet_wrap(~Nivel) +
-      geom_text(aes(x = linea, y = Porcentaje + .03 , label = paste0(round(Porcentaje*100),"%")),
+    Niveles <- sort(unique(aux1$Nivel)[complete.cases(unique(aux1$Nivel))])
+    
+    plotlist <- lapply(1:length(Niveles), function(x) {
+      #legend_plot <- ifelse(x == length(Niveles), "bottom", "none")
+      legend_plot <- "bottom"
+#       if(length(Niveles)%%2 == 0){
+#         legend_plot = "bottom"
+#       }
+#       else {
+#         legend_plot <- ifelse(x == ceiling(length(Niveles)/2), "bottom", "none")
+#       }
+      aux1 <- filter(aux1, Nivel == Niveles[x])
+      aux2 <- filter(aux2, Nivel == Niveles[x]) %>% arrange(desc(Porcentaje))
+      aux2$linea <- factor(aux2$linea, levels = aux2$linea)
+      aux1$linea <- factor(aux1$linea, levels = aux2$linea)
+      ggplot() +
+      geom_bar(data = aux2,aes(x=linea,y=Porcentaje,fill="Share"),stat="identity",colour="black") +
+      geom_text(data=aux2,aes(x=linea,y=Porcentaje + .03 ,label=paste0(round(Porcentaje*100),"%")),
                 colour='black',size=6) +
+      geom_bar(data=aux1,aes(x=linea,y=Porcentaje,fill="Top"), alpha=0.4,stat="identity",colour="black") +
+      geom_text(data=aux1,aes(x=linea,y=Porcentaje - .05 ,label=paste0(round(Porcentaje*100),"%")),
+                colour="#2c3e50",size=6) +
       theme(axis.text.x=element_text(angle=90,size=22),
             axis.text.y=element_text(size=22),
             panel.background=element_rect(fill='#C2D1E0'),
             strip.background=element_rect(fill="#2c3e50"),
             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
-            strip.text.x = element_text(colour = 'white', size = 22)) +
+            strip.text.x = element_text(colour = 'white', size = 22),
+            legend.text=element_text(size=24),
+            legend.title=element_blank()) +
       scale_y_continuous(labels=percent) +
       scale_fill_manual(name="Tipo",
                         values=c(Share="#2c3e50", Top="#C2D1E0")) +
-      ylab("") + xlab("")
+      ylab("") + xlab("") + ggtitle(Niveles[x]) +
+      theme(legend.position = legend_plot)
+    })
+    
+    multiplot(plotlist = plotlist, cols=length(plotlist))
+    
+#     ggplot() +
+#       geom_bar(data=aux2,aes(x=linea,y=Porcentaje,fill="Share"),stat="identity",colour="black") +
+#       geom_text(data=aux2,aes(x=linea,y=Porcentaje + .03 ,label=paste0(round(Porcentaje*100),"%")),
+#                 colour='black',size=6) +
+#       geom_bar(data=aux1,aes(x=linea,y=Porcentaje,fill="Top"), alpha=0.4,stat="identity",colour="black") +
+#       geom_text(data=aux1,aes(x=linea,y=Porcentaje - .05 ,label=paste0(round(Porcentaje*100),"%")),
+#                 colour="#2c3e50",size=6) +
+#       facet_wrap(~Nivel) +
+#       #facet_wrap(data = aux1, ~Nivel) +
+#       theme(axis.text.x=element_text(angle=90,size=22),
+#             axis.text.y=element_text(size=22),
+#             panel.background=element_rect(fill='#C2D1E0'),
+#             strip.background=element_rect(fill="#2c3e50"),
+#             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+#             strip.text.x = element_text(colour = 'white', size = 22),
+#             legend.text=element_text(size=24),
+#             legend.title=element_blank()) +
+#       scale_y_continuous(labels=percent) +
+#       scale_fill_manual(name="Tipo",
+#                         values=c(Share="#2c3e50", Top="#C2D1E0")) +
+#       ylab("") + xlab("")
+    
+#     ggplot() +
+#       geom_bar(data=aux2,aes(x=linea,y=Porcentaje,fill="Share"),stat="identity",colour="black") +
+#       geom_text(data=aux2,aes(x=linea,y=Porcentaje + .03 ,label=paste0(round(Porcentaje*100),"%")),
+#                 colour='black',size=6) +
+#       geom_bar(data=aux1,aes(x=linea,y=Porcentaje,fill="Top"), alpha=0.4,stat="identity",colour="black") +
+#       geom_text(data=aux1,aes(x=linea,y=Porcentaje - .05 ,label=paste0(round(Porcentaje*100),"%")),
+#                 colour="#2c3e50",size=6) +
+#       facet_wrap(~Nivel) +
+#       #facet_wrap(data = aux1, ~Nivel) +
+#       theme(axis.text.x=element_text(angle=90,size=22),
+#             axis.text.y=element_text(size=22),
+#             panel.background=element_rect(fill='#C2D1E0'),
+#             strip.background=element_rect(fill="#2c3e50"),
+#             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+#             strip.text.x = element_text(colour = 'white', size = 22),
+#             legend.text=element_text(size=24),
+#             legend.title=element_blank()) +
+#       scale_y_continuous(labels=percent) +
+#       scale_fill_manual(name="Tipo",
+#                         values=c(Share="#2c3e50", Top="#C2D1E0")) +
+#       ylab("") + xlab("")
+    
+#     aux1 <- l3 %>%
+#       left_join(df_top,by="linea") 
+#     
+#     aux1$linea<-factor(aux1$linea,levels=as.character(aux1$linea))
+#     
+#     aux2 <- l3 %>%
+#       left_join(df_share,by="linea")
+#     
+#     aux2$linea<-factor(aux2$linea,levels=as.character(aux2$linea))
+#     
+#     names(aux1) <- c("linea", "Nivel", "Conteo", "Porcentaje", "Tipo")
+#     names(aux2) <- c("linea", "Nivel", "Conteo", "Porcentaje", "Tipo")
+#     
+#     aux_r <- rbind(aux1, aux2) %>% filter(complete.cases(.))
+#     aux_r$Tipo <- factor(aux_r$Tipo, levels = c("Share", "Top"))
+#     aux_r$Tipo <- factor(aux_r$Tipo, levels = c("Top", "Share"))
+#     
+#     ggplot(aux_r) +
+#       geom_bar(aes(x = linea, y = Porcentaje, fill = Tipo, alpha = Tipo), 
+#                position = "identity", stat="identity", colour="black") +
+#       facet_wrap(~Nivel) +
+#       geom_text(aes(x = linea, y = Porcentaje + .03 , label = paste0(round(Porcentaje*100),"%")),
+#                 colour='black',size=6) +
+#       theme(axis.text.x=element_text(angle=90,size=22),
+#             axis.text.y=element_text(size=22),
+#             panel.background=element_rect(fill='#C2D1E0'),
+#             strip.background=element_rect(fill="#2c3e50"),
+#             panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+#             strip.text.x = element_text(colour = 'white', size = 22),
+#             legend.text=element_text(size=24),
+#             legend.title=element_blank()) +
+#       scale_y_continuous(labels=percent) +
+#       scale_fill_manual(name="Tipo",
+#                         values=c(Top="#2c3e50", Share="#C2D1E0")) +
+#                         #values=c(Share="red", Top="blue")) +
+#       scale_alpha_manual(values=c(Share = 0.5, Top = 1)) +
+#       ylab("") + xlab("")
     
   }
 }
@@ -409,7 +513,6 @@ tam_base<-function(datos, edad, genero, nivel, tc, tp){
               tc,
               tp,
               "Total")
-  # n<-sum(a$F_3)
   n <- nrow(a)
   ifelse(n<=30,color<-"red",color<-"black") 
   ifelse(n<=30,txt<-"base inadecuado para hacer inferencias",txt<-"base adecuado")
@@ -757,23 +860,25 @@ grafica_dimensiones<-function(bateria_subconjunto){
     geom_point(aes(group=concepto),size=11) +
     geom_hline(aes(yintercept=0),linetype='dotted',size=2) +
     geom_point(aes(colour=concepto,group=concepto),size=10) +
-    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
-    
+    scale_colour_manual(values = c('forestgreen','royalblue4', 
+                                   'red','dodgerblue2','deeppink','goldenrod1')) +
+    theme(axis.text.x=element_blank(),
+          axis.text.y=element_text(size=22),
+          panel.background=element_rect(fill='#C2D1E0'),
+          strip.background=element_rect(fill="#2c3e50"),
+          panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+          strip.text.x = element_text(colour = 'white', size = 22),
+          legend.title=element_blank(),
+          legend.text = element_text(size = 22),
+          axis.title=element_text(size=22),
+          plot.title = element_text(size=22)) +
     xlab('Dimensión') +
     ylab('Diferencias') +
     ggtitle('Score de conceptos por dimensión')
-  
-  
-  
-  
-  
-  
-  
+ 
   return(grafica_comparativa)
   
 }
-
-
 
 grafica_bateria<-function(bateria_subconjunto){
   
@@ -820,17 +925,24 @@ grafica_bateria<-function(bateria_subconjunto){
   
   grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
     geom_point(aes(group=concepto),size=11) +
-
-    geom_rect(aes(xmin=1.5, xmax=3.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
-
-    geom_rect(aes(xmin=6.5, xmax=9.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
- 
-    geom_rect(aes(xmin=15.5, xmax=19.5, ymin=-Inf,ymax=Inf), alpha=0.05,fill='gray')+
-    theme(panel.grid.major = element_line(colour = "gray50"),
-          panel.grid.minor = element_line(colour = "gray50"),
-          axis.text=element_text(size=16))+
+    geom_rect(aes(xmin=1.5, xmax=3.5, ymin=-Inf,ymax=Inf), alpha=0.01,fill='lightskyblue')+
+    geom_rect(aes(xmin=6.5, xmax=9.5, ymin=-Inf,ymax=Inf), alpha=0.01,fill='lightskyblue')+
+    geom_rect(aes(xmin=15.5, xmax=19.5, ymin=-Inf,ymax=Inf), alpha=0.01,fill='lightskyblue')+
     geom_point(aes(colour=concepto,group=concepto),size=10) +
-    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 
+                                   'red','dodgerblue2','deeppink','goldenrod1')) +
+    theme(axis.text.x=element_text(size=18, hjust = 1),
+          axis.text.y=element_text(size=22),
+          panel.background=element_rect(fill='#C2D1E0'),
+          strip.background=element_rect(fill="#2c3e50"),
+          panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+          strip.text.x = element_text(colour = 'white', size = 22),
+          legend.title=element_blank(),
+          legend.text = element_text(size = 22),
+          axis.title=element_text(size=22),
+          plot.title = element_text(size=22),
+          panel.grid.major = element_line(colour = "gray50"),
+          panel.grid.minor = element_line(colour = "gray50")) +
     xlab('Concepto') +
     ylab('Porcentaje de menciones') +
     ggtitle('Porcentaje de menciones por concepto')+
@@ -839,7 +951,6 @@ grafica_bateria<-function(bateria_subconjunto){
   return(grafica_comparativa)
   
 }
-
 
 grafica_bateria_equity<-function(bateria_subconjunto){
   
@@ -869,11 +980,7 @@ grafica_bateria_equity<-function(bateria_subconjunto){
   
   
   names(r2)<-c('dimensión','concepto','valor')
-  
-  
-  
-  
-  
+
   grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
     geom_point(aes(group=concepto),size=11) +
     #geom_rect(aes(xmin=6.5, xmax=7.5, ymin=-Inf,ymax=Inf), alpha=0.005,fill='blue')+
@@ -883,13 +990,22 @@ grafica_bateria_equity<-function(bateria_subconjunto){
     
     
     geom_point(aes(colour=concepto,group=concepto),size=10) +
-    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
-    
+    scale_colour_manual(values = c('forestgreen','royalblue4', 
+                                   'red','dodgerblue2','deeppink',
+                                   'goldenrod1')) +
+    theme(axis.text.x=element_text(angle=90,size=20, hjust = 1),
+          axis.text.y=element_text(size=22),
+          panel.background=element_rect(fill='#C2D1E0'),
+          strip.background=element_rect(fill="#2c3e50"),
+          panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+          strip.text.x = element_text(colour = 'white', size = 22),
+          legend.title=element_blank(),
+          legend.text = element_text(size = 22),
+          axis.title=element_text(size=22),
+          plot.title = element_text(size=22)) +
     xlab('Variable') +
     ylab('Promedio') +
-    ggtitle('Promedio de calificación por variable')+
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
-  
+    ggtitle('Promedio de calificación por variable')
   
   
   
@@ -899,17 +1015,13 @@ grafica_bateria_equity<-function(bateria_subconjunto){
   
 }
 
-
 grafica_bateria_equity_score<-function(bateria_subconjunto){
   
   basebis<- bateria_subconjunto %>%
     select(one_of(c(names(bateria_subconjunto)[7]),'ponderador','tienda'))
-  
-  
+
   basebis[,1]<-as.numeric(basebis[,1])
-  
-  
-  
+
   nombres<-as.list(names(basebis)[1])
   
   r<-lapply(nombres,media.ponderada,basebis,'tienda')
@@ -928,32 +1040,26 @@ grafica_bateria_equity_score<-function(bateria_subconjunto){
   
   
   names(r2)<-c('dimensión','concepto','valor')
-  
-  
-  
-  
-  
+ 
   grafica_comparativa<-ggplot(data=r2,aes(x=dimensión,y=valor)) + 
-    #geom_hline(aes(yintercept=0),linetype='dotted',size=2) +
     geom_point(aes(group=concepto),size=11) +
-    #geom_rect(aes(xmin=6.5, xmax=7.5, ymin=-Inf,ymax=Inf), alpha=0.005,fill='blue')+
-    
-    theme(
-      axis.text=element_text(size=16))+
-    
-    
+    theme(axis.text.x=element_blank(),
+          axis.text.y=element_text(size=22),
+          panel.background=element_rect(fill='#C2D1E0'),
+          strip.background=element_rect(fill="#2c3e50"),
+          panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+          strip.text.x = element_text(colour = 'white', size = 22),
+          legend.title=element_blank(),
+          legend.text = element_text(size = 22),
+          axis.title=element_text(size=22),
+          plot.title = element_text(size=22)) +
     geom_point(aes(colour=concepto,group=concepto),size=10) +
-    scale_colour_manual(values = c('forestgreen','royalblue4', 'red','dodgerblue2','deeppink','goldenrod1')) +
-    
-    xlab('') +
+    scale_colour_manual(values = c('forestgreen','royalblue4', 'red',
+                                   'dodgerblue2','deeppink','goldenrod1')) +
+    xlab('Score Equity') +
     ylab('') +
     ggtitle('Equity score por tienda')
-  
-  
-  
-  
-  
-  
+ 
   return(grafica_comparativa)
   
 }

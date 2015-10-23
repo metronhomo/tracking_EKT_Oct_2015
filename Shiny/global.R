@@ -8,6 +8,7 @@ library(readxl)
 library (wordcloud)
 library(SnowballC)
 library(tm)
+library(grid)
 
 df <- read.csv("./data/Base_Final.csv")
 
@@ -93,7 +94,44 @@ palabras_prohibidas=c('que','y','d?a','na','casi','lleva','llevas','elektraz','t
                       'porque','formas','veas','resiste','tomar','vez','debes', 'afor','supon','andes','podias','estas','saque','nosotros','alguna','cualquier','compre','dichos','llamar','busco','hacerle','adquirir','conozcan','cambia','cambien','armar',
                       'quiere','compras','obtienen','quiza','podria','comer','infla','daa','mejro','saquemos','eso','darle','tratan')
 
+
 load("./data/ws dimensiones.RData")
 load("./data/ws equity.RData")
+names(dfequity)[6] <- "Valor por su dinero"
 
 # rm(base_con,base_im,base_evap,base_eq)
+
+# http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+ # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}

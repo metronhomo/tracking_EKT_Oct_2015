@@ -130,8 +130,8 @@ shinyServer(function(input, output,session){
                       input$filtroTipoProducto2)
     grafica_top_share(df_top, df_share, input$facet2)
   }, 
-  height = 900, 
-  width = 1000)
+  height = 700, 
+  width = 1600)
   
   ###### Pregunta 4
   
@@ -208,18 +208,18 @@ shinyServer(function(input, output,session){
   output$txt_p5 <- renderText(paste("Tamaño de base: ", tb_p5()[1],
                                     ". Esto es un tamaño de ",tb_p5()[3],".",sep=""))
   
-  output$plot_p5_Guiado <- renderPlot({
-    graphdata <- data_p5_Guiado()
-    verifica_checkbox(graphdata, 0,
-                      input$filtroEdad2,
-                      input$filtroGen2,
-                      input$filtroNiv2,
-                      input$filtroTipoCliente2,
-                      input$filtroTipoProducto2)
-    grafica_cuenta(graphdata, input$facet2)
-  }, 
-  height = 900, 
-  width = 1000)
+#   output$plot_p5_Guiado <- renderPlot({
+#     graphdata <- data_p5_Guiado()
+#     verifica_checkbox(graphdata, 0,
+#                       input$filtroEdad2,
+#                       input$filtroGen2,
+#                       input$filtroNiv2,
+#                       input$filtroTipoCliente2,
+#                       input$filtroTipoProducto2)
+#     grafica_cuenta(graphdata, input$facet2)
+#   }, 
+#   height = 900, 
+#   width = 1000)
   
   #Recuerda haber visto publicidad (P6)----
   
@@ -284,18 +284,18 @@ shinyServer(function(input, output,session){
   output$txt_p7 <- renderText(paste("Tamaño de base: ", tb_p7()[1],
                                     ". Esto es un tamaño de ",tb_p7()[3],".",sep=""))
   
-  output$plot_p7 <- renderPlot({
-    graphdata <- data_p7()
-    verifica_checkbox(graphdata, 0,
-                      input$filtroEdad2,
-                      input$filtroGen2,
-                      input$filtroNiv2,
-                      input$filtroTipoCliente2,
-                      input$filtroTipoProducto2)
-    grafica_cuenta(graphdata, input$facet2)
-  }, 
-  height = 900, 
-  width = 1000)
+#   output$plot_p7 <- renderPlot({
+#     graphdata <- data_p7()
+#     verifica_checkbox(graphdata, 0,
+#                       input$filtroEdad2,
+#                       input$filtroGen2,
+#                       input$filtroNiv2,
+#                       input$filtroTipoCliente2,
+#                       input$filtroTipoProducto2)
+#     grafica_cuenta(graphdata, input$facet2)
+#   }, 
+#   height = 900, 
+#   width = 1000)
   
   #En que tiendas ha comprado últimamente (P8)-----
   
@@ -589,6 +589,14 @@ shinyServer(function(input, output,session){
   
   output$plot_p17 <- renderPlot({
     graphdata <- data_p17()
+    graphdata$linea <- factor(c("Mucho mejor y más interesado",
+                                "Un poco mejor",
+                                "No cambió para nada",
+                                "Cambió para peor"), 
+                              levels = c("Mucho mejor y más interesado",
+                                         "Un poco mejor",
+                                         "No cambió para nada",
+                                         "Cambió para peor"))
     verifica_checkbox(graphdata, 0,
                       input$filtroEdad5,
                       input$filtroGen5,
@@ -661,6 +669,14 @@ shinyServer(function(input, output,session){
   
   output$plot_p20 <- renderPlot({
     graphdata <- data_p20()
+    graphdata$linea <- factor(c("Mucho mejor y más interesado",
+                                "Un poco mejor",
+                                "No cambió para nada",
+                                "Cambió para peor"), 
+                              levels = c("Mucho mejor y más interesado",
+                                         "Un poco mejor",
+                                         "No cambió para nada",
+                                         "Cambió para peor"))
     verifica_checkbox(graphdata, 0,
                       input$filtroEdad5,
                       input$filtroGen5,

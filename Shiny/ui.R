@@ -11,7 +11,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 conditionalPanel(condition ="assert:<output.contenido>",
                                                  downloadButton('d1',
                                                                 'Descarga la base filtrada')
-                                )
+                                ),
+                                width = 2
                               ),
                               mainPanel(
                                 h3(textOutput("txt_p2"),align="center"),
@@ -28,42 +29,43 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 conditionalPanel(condition ="assert:<output.contenido>",
                                                  downloadButton('d2',
                                                                 'Descarga la base filtrada')
-                                )
+                                ),
+                                width = 2
                               ),    
                               mainPanel(
                                 tabsetPanel(
-                                  tabPanel("Top of Mind y espontáneo de marca",
+                                  tabPanel("Top y share of Mind de marca",
                                            h3(textOutput("txt_p3"),align="center"),
                                            br(),
-                                           column(4,plotOutput("plot_p3",height=100,width=1300)),align="center"),
-                                  tabPanel("Top of mind y espontáneo de publicidad",
+                                           column(5,plotOutput("plot_p3",height=100,width=1300)),align="center"),
+                                  tabPanel("Top y share of Mind de publicidad",
                                            h3(textOutput("txt_p4"),align="center"),
                                            br(),
                                            column(4,plotOutput("plot_p4",height=100,width=1300)),align="center"),
-                                  tabPanel("Guiado de marca",
-                                           h3(textOutput("txt_p5"),align="center"),
-                                           br(),
-                                           column(4,plotOutput("plot_p5_Guiado",height=100,width=1300)),align="center"),
-                                  tabPanel("Guiado de publicidad",
+#                                   tabPanel("Guiado de marca",
+#                                            h3(textOutput("txt_p5"),align="center"),
+#                                            br(),
+#                                            column(4,plotOutput("plot_p5_Guiado",height=100,width=1300)),align="center"),
+                                  tabPanel("Total Conocimiento - Publicidad",
                                            h3(textOutput("txt_p6"),align="center"),
                                            br(),
                                            column(4,plotOutput("plot_p6_Guiado",height=100,width=1300)),align="center"),
-                                  tabPanel("Consideración de uso",
-                                           h3(textOutput("txt_p7"),align="center"),
-                                           br(),
-                                           column(4,plotOutput("plot_p7",height=100,width=1300)),align="center"),
-                                  tabPanel("Uso actual",
-                                           h3(textOutput("txt_p8"),align="center"),
-                                           br(),
-                                           column(4,plotOutput("plot_p8",height=100,width=1300)),align="center"),
+#                                   tabPanel("Consideración de uso",
+#                                            h3(textOutput("txt_p7"),align="center"),
+#                                            br(),
+#                                            column(4,plotOutput("plot_p7",height=100,width=1300)),align="center"),
+                                  tabPanel("Uso alguna vez",
+                                         h3(textOutput("txt_p10"),align="center"),
+                                         br(),
+                                         column(4,plotOutput("plot_p10",height=100,width=1300)),align="center"),
                                   tabPanel("Uso U12",
                                            h3(textOutput("txt_p9"),align="center"),
                                            br(),
                                            column(4,plotOutput("plot_p9",height=100,width=1300)),align="center"),
-                                  tabPanel("Uso alguna vez",
-                                           h3(textOutput("txt_p10"),align="center"),
+                                  tabPanel("Uso actual",
+                                           h3(textOutput("txt_p8"),align="center"),
                                            br(),
-                                           column(4,plotOutput("plot_p10",height=100,width=1300)),align="center"),
+                                           column(4,plotOutput("plot_p8",height=100,width=1300)),align="center"),
                                   tabPanel("Uso de mayor frecuencia",
                                            h3(textOutput("txt_p11"),align="center"),
                                            br(),
@@ -84,19 +86,21 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 conditionalPanel(condition ="assert:<output.contenido>",
                                                  downloadButton('d3',
                                                                 'Descarga la base filtrada')
-                                )
+                                ),
+                                width = 3
                               ),
                               mainPanel(tabsetPanel(
-                                tabPanel('resultados de la batería',
-                                         column(12,plotOutput('plotbateria',height=650),
+                                tabPanel('Resultados de la batería',
+                                         column(12,plotOutput('plotbateria',height=750),
                                                 wellPanel(h2('En esta gráfica se encuentran representados los porcentajes de asociación
-                                                             por marca para cada atributo..'))
+                                                             por marca para cada atributo..',align="left"),align="center")
                                                 )
                                          ),
                                 tabPanel('resumen por dimensión',
-                                         column(12,plotOutput('plotimagen',height=650),
+                                         column(12,plotOutput('plotimagen',height=750),
                                                 wellPanel(h2('En esta imagen se encuentran resumidos los items de la batería en 7
-                                                             dimensiones principales. La línea punteada indica el score promedio de la población.'))
+                                                             dimensiones principales. La línea punteada indica el score promedio de la población.'
+                                                             ,align="left"),align="center")
                                                 )
                                          )
                                 
@@ -111,16 +115,17 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 conditionalPanel(condition ="assert:<output.contenido>",
                                                  downloadButton('d4',
                                                                 'Descarga la base filtrada')
-                                )
+                                ),
+                                width = 3
                               ),    
                               mainPanel(
                                 tabsetPanel(
-                                  tabPanel('score',
-                                           column(8,plotOutput('equitybateria',height=650),
-                                                  wellPanel(h2('bla bla equity'))
+                                  tabPanel('Score',
+                                           column(9,plotOutput('equitybateria',height=800),
+                                                  wellPanel(h2('bla bla equity',align="left"),align="center")
                                            ),
-                                           column(4,plotOutput('equityscore',height=650),
-                                                  wellPanel(h2('bla bla equity'))
+                                           column(3,plotOutput('equityscore',height=800),
+                                                  wellPanel(h2('bla bla equity',align="left"),align="center")
                                            )
                                   ),
                                   #column(4,plotOutput("",height=100,width=1300))),
@@ -139,7 +144,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                 conditionalPanel(condition ="assert:<output.contenido>",
                                                  downloadButton('d5',
                                                                 'Descarga la base filtrada')
-                                )
+                                ),
+                                width = 3
                               ),    
                               mainPanel(
                                 tabsetPanel(
