@@ -148,7 +148,7 @@ shinyServer(function(input, output,session){
   })
   
   data_p4_share <- reactive({
-    genera_data_p(p4_share, c(11:21), 2,
+    genera_data_p(p4_share, c(11:22), 2,
                   input$filtroEdad2,
                   input$filtroGen2,
                   input$filtroNiv2,
@@ -181,8 +181,8 @@ shinyServer(function(input, output,session){
                       input$filtroTipoProducto2)
     grafica_top_share(df_top, df_share, input$facet2)
   }, 
-  height = 900, 
-  width = 1000)
+  height = 700, 
+  width = 1600)
   
   #Logos (P5)----
   data_p5_Guiado <- reactive({
@@ -526,7 +526,7 @@ shinyServer(function(input, output,session){
                       input$filtroTipoProducto2)
     graphdata <- inner_join(datos_p11, datos_p11a) %>% 
       group_by(P11, P11a) %>% 
-      summarise(n = ceil(sum(F_3))) %>%
+      summarise(n = round(sum(F_3))) %>%
       rename(Uso_actual = P11, Segunda_opcion = P11a)
     ggplot(graphdata) + 
       geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), stat = 'identity') +
@@ -548,34 +548,48 @@ shinyServer(function(input, output,session){
   width = 1000)
   
   
-  tb_tam_base_evap <- reactive({
-    b <- tam_base(base_evap,
+  tb_tam_base_16a18 <- reactive({
+    a <- base_evap %>% filter(P17 != " ")
+    b <- tam_base(a,
                   input$filtroEdad5,
                   input$filtroGen5,
                   input$filtroNiv5,
                   input$filtroTipoCliente5,
                   input$filtroTipoProducto5)
+    df %>% filter(P17 != " ") %>% nrow()
     return(b)
   })
   
-  output$txt_p16_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                       ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  tb_tam_base_19a21 <- reactive({
+    a <- base_evap %>% filter(P20 != " ")
+    b <- tam_base(a,
+                  input$filtroEdad5,
+                  input$filtroGen5,
+                  input$filtroNiv5,
+                  input$filtroTipoCliente5,
+                  input$filtroTipoProducto5)
+    df %>% filter(P17 != " ") %>% nrow()
+    return(b)
+  })  
+  
+  output$txt_p16_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_16a18()[1],
+                                       ". Esto es un tamaño de ",tb_tam_base_16a18()[3],".",sep=""))
   
   
-  output$txt_p16a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                        ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  output$txt_p16a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_16a18()[1],
+                                        ". Esto es un tamaño de ",tb_tam_base_16a18()[3],".",sep=""))
   
-  output$txt_p17 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                     ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  output$txt_p17 <- renderText(paste("Tamaño de base: ", tb_tam_base_16a18()[1],
+                                     ". Esto es un tamaño de ",tb_tam_base_16a18()[3],".",sep=""))
   
-  output$txt_p19_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                       ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  output$txt_p19_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_19a21()[1],
+                                       ". Esto es un tamaño de ",tb_tam_base_19a21()[3],".",sep=""))
   
-  output$txt_p19a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                        ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  output$txt_p19a_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_19a21()[1],
+                                        ". Esto es un tamaño de ",tb_tam_base_19a21()[3],".",sep=""))
   
-  output$txt_p20 <- renderText(paste("Tamaño de base: ", tb_tam_base_evap()[1],
-                                     ". Esto es un tamaño de ",tb_tam_base_evap()[3],".",sep=""))
+  output$txt_p20 <- renderText(paste("Tamaño de base: ", tb_tam_base_19a21()[1],
+                                     ". Esto es un tamaño de ",tb_tam_base_19a21()[3],".",sep=""))
   
   data_p16_1 <- reactive({
     a <- filtro(base_evap,

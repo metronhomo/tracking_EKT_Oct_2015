@@ -27,7 +27,7 @@ p2 <-base_con[,c(3:12, 117)]                         # Que tipo de producto comp
 p3_top <- base_con[,c(3:12,13, 117)]         # top of mind Marca
 p3_share <- base_con[, c(3:23, 117)]               # ru=2     share of mind" Marca
 p4_Top <-  base_con[,c(3:12, 24, 117)]         # top de publicidad
-p4_share <-  base_con[,c(3:12, 25:34, 117)]    #share de publicidad
+p4_share <-  base_con[,c(3:12, 24:34, 117)]    #share de publicidad
 p5_guiado <-  base_con[,c(3:12, 35:44, 117)]   # share of mind" Marca
 p6_guiado <-  base_con[,c(3:12, 45:54, 117)]   # guiado de publicidad
 p7 <-  base_con[,c(3:12, 55:64, 117)]          # cual de estas marcas considera la proxima vez que compre un producto
