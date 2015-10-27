@@ -1,5 +1,6 @@
   #Helpers-------
 
+  
 verifica_checkbox <- function(graphdata, panel_1 = FALSE, edad, genero, nivel, tipo_cliente, tipo_producto) {
   if(panel_1) {
     string_de_filtros <- c("Edad", "Género", "Nivel", "Tipo de cliente")

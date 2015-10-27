@@ -1,6 +1,7 @@
 library(shiny)
 library(shinythemes)
 
+
 shinyUI(navbarPage("",theme = shinytheme("flatly"),
                    tabPanel("Objetivo",
                             column(12,imageOutput('objetivo'), align="center")),
