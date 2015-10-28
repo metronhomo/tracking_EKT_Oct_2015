@@ -11,6 +11,7 @@ library (wordcloud)
 library(SnowballC)
 library(tm)
 library(grid)
+library(VennDiagram)
 
 df <- read.csv("./data/Base_Final.csv")
 
@@ -151,3 +152,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
+
+
+my_min <- 1
+my_max <- 5
