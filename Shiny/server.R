@@ -916,4 +916,33 @@ shinyServer(function(input, output,session){
   }, 
   deleteFile = F)
   
+   data_plotpublicidad <- reactive({
+    bateriab<-filtro(df,
+                     input$filtroEdad5,
+                     input$filtroGen5,
+                     input$filtroNiv5,
+                     input$filtroTipoCliente5)
+    return(bateriab)
+  })
+  
+  output$graficapublicidad<-renderPlot({
+    datos<-data_plotpublicidad()
+    fgrafpub(datos,input$marca,input$medios)
+  })
+  
+  
+  observe({
+    if(length(input$medios) > my_max)
+    {
+      updateCheckboxGroupInput(session, "medios", selected= tail(input$medios,my_max))
+    }
+    if(length(input$medios) < my_min)
+    {
+      updateCheckboxGroupInput(session, "medios", selected = '1')
+    }
+  })
+  
+  
+  
+  
 })
