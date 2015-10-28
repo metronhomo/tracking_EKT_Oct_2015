@@ -160,8 +160,43 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               mainPanel(
                                 tabsetPanel(
                                   tabPanel("Lugares en donde vio publicidad",
-                                           br(),
-                                           br()),
+                                           column(8,
+                                                  plotOutput('graficapublicidad',height=600,width=600)
+                                                  ),
+                                           column(4,
+                                                  wellPanel(
+                                                    
+                                                    selectInput(
+                                                      'marca', 
+                                                      label = h4('marca'),
+                                                      choices = list(
+                                                        'Elektra' = 'Elektra',
+                                                        'Coppel' = 'Coppel',
+                                                        'Famsa' = "Famsa",
+                                                        'Bodega' = 'Bodega',
+                                                        "Walmart" = "Walmart",
+                                                        "Liverpool" = "Liverpool"),
+                                                      selected='Elektra'),
+                                                    checkboxGroupInput(
+                                                      'medios', 
+                                                      label = h4('Medios'),
+                                                      choices = list(
+                                                        'Televisión' = 1,
+                                                        'Radio' = 2,
+                                                        'Revistas' = 3,
+                                                        'Periódicos' = 4,
+                                                        "Espectaculares" = 5,
+                                                        "Paradas y posters" = 6,
+                                                        "Vallas y bardas" =7,
+                                                        "Cines" = 8,
+                                                        "Autobuses y metro" = 9,
+                                                        "Internet" = 10,
+                                                        "Centros comerciales" = 11,
+                                                        "Redes sociales" = 12,
+                                                        "Otro" = 13),
+                                                      selected = c(1,2,3,4,5))
+                                                  ))
+                                           ),
                                            #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Qué recuerda de la publicidad de EKT",
                                            h3(textOutput("txt_p16_1"),align="center"),
