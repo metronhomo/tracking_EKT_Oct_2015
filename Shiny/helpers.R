@@ -1070,3 +1070,101 @@ grafica_bateria_equity_score<-function(bateria_subconjunto){
   return(grafica_comparativa)
   
 }
+
+
+
+fgrafpub<-function(df,marca,medios){
+  
+  
+  
+  filtro<-switch(marca,
+         'Elektra'=0,
+         'Coppel'=1,
+         'Famsa'=2,
+         'Bodega'=3,
+         'Walmart'=4,
+         'Liverpool'=5)
+  
+  
+  
+  df[df==' ']<-NA
+  variables<-(316:328)+(filtro*13)
+  conteos<-df[0,variables]
+  for(i in 1:length(conteos)){
+    conteos[,i]<-as.numeric(conteos[,i])
+  }
+  nombres<-c('televisión',
+             'radio',
+             'revistas',
+             'periódicos',
+             'espectaculares',
+             'paradas y posters',
+             'vallas y bardas',
+             'cines',
+             'autobuses y metro',
+             'internet',
+             'centros comerciales',
+             'redes sociales',
+             'otro')
+  names(conteos)<-nombres
+  conteos<-as.list(conteos)
+  j=1
+  for(i in variables){
+    conteos[[j]]<-c(which(!is.na(df[,i])))
+    j<-j+1
+  }
+  library(VennDiagram)
+  
+  tot<-length(unique(unlist((conteos[as.numeric(unlist(medios))]))))
+  
+  
+  tabla<-as.numeric(table(unlist((conteos[as.numeric(unlist(medios))]))))
+  
+  tabla<-summary(as.factor(tabla))
+  tabla<-tabla/tot*100
+  
+  
+  
+  
+  tabla<-paste(round(tabla,2),'%',sep='')
+  
+  tabla2<-c('personas se alcanzan 1 vez',
+            'personas se alcanzan 2 veces',
+            'personas se alcanzan 3 veces',
+            'personas se alcanzan 4 veces',
+            'personas se alcanzan 5 veces')
+  
+  
+  titulo<-paste(tabla,tabla2)
+  
+  
+
+  
+  d1<-venn.diagram(x=conteos[as.numeric(unlist(medios))],
+                   col=c('blue','green','red','yellow','gray')[1:length(unlist(medios))],
+                   fill=c('blue','green','red','yellow','gray')[1:length(unlist(medios))],
+                   lwd=1,
+                   lty=3,
+                   margin=0.05,
+                   filename=NULL,
+                   main.cex=.9,
+                   cat.cex=.7,
+                   main.pos=c(.8,1),
+                   main=paste('En total se alcanzan ', tot,'personas\n',paste(titulo[1:min(length(unlist(medios)),3)],collapse='\n')))
+  return(grid.draw(d1))
+  
+  
+  
+  
+  
+  
+}
+
+
+
+
+
+
+
+
+
