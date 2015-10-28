@@ -78,8 +78,13 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   tabPanel("Uso frecuente vs alternativa de compra",
                                            #h3(textOutput("txt_p11a"),align="center"),
                                            br(),
-                                           column(4,plotOutput("plot_p11_vs_p11a",height=100,width=1300)),align="center")
-                                  
+                                           column(4,plotOutput("plot_p11_vs_p11a",height=100,width=1300)),align="center"),
+                                  tabPanel("Funnel de Consideración a Total",
+                                           column(12,imageOutput('consideraciontotal'),align="center")),
+                                  tabPanel("Funnel de Consideración Clientes EKT",
+                                           column(10,imageOutput('consideracionekt'),align="center")),
+                                  tabPanel("Funnel de Consideración Competencia",
+                                           column(10,imageOutput('consideracioncomp'),align="center"))
                                 )
                               )
                             )

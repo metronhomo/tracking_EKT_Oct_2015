@@ -881,4 +881,39 @@ shinyServer(function(input, output,session){
     grafica_bateria_equity_score(datos)
   })
   
+  #Funnel de Consideración a total
+  
+  output$consideraciontotal<-renderImage({
+    list(src='images/consideraciontotal.png',
+         filetype='image/png',
+         alt='wiiii',
+         height = 950, 
+         width = 1500)
+  }, 
+  deleteFile = F)
+  
+  
+  #Funnel de Consideración Clientes EKT
+  
+  output$consideracionekt<-renderImage({
+    list(src='images/consideracionekt.png',
+         filetype='image/png',
+         alt='wiiii',
+         height = 950, 
+         width = 1500)
+  }, 
+  deleteFile = F)
+  
+  
+  #Funnel de Consideración Competencia
+  
+  output$consideracioncomp<-renderImage({
+    list(src='images/consideracioncomp.png',
+         filetype='image/png',
+         alt='wiiii',
+         height = 950, 
+         width = 1500)
+  }, 
+  deleteFile = F)
+  
 })

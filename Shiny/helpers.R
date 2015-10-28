@@ -664,12 +664,14 @@ menu2<-function(){
           "Nivel" = "NIVEL",
           "Tipo de cliente" = "Tipo_Cliente",
           "Total"
-        ), selected = "Total")
+        ), selected = "Total"),
 #       radioButtons("filtrocat2", 
 #                    label = h4(""),
 #                    choices=list('')
 #       )
 #       #downloadButton('downloadFile', 'Descargar archivo')
+        div(h4("Este panel no funciona en ninguna de las pestañas con nombre Funnel."),
+                 style = "color:red",align="left")
     )
   )}
 
