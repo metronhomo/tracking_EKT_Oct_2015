@@ -528,12 +528,18 @@ shinyServer(function(input, output,session){
     graphdata <- inner_join(datos_p11, datos_p11a) %>% 
       group_by(P11, P11a) %>% 
       summarise(n = round(sum(F_3))) %>%
-      rename(Uso_actual = P11, Segunda_opcion = P11a)
+      rename(Uso_actual = P11, Segunda_opcion = P11a) %>%
+      ungroup() %>%
+      group_by(Uso_actual) %>%
+      mutate(n2 = sum(n)) %>%
+      ungroup() %>%
+      arrange(desc(n2)) %>%
+      mutate(Uso_actual = factor(Uso_actual, levels = unique(Uso_actual)))
     ggplot(graphdata) + 
       geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), stat = 'identity') +
       scale_fill_manual(values = 
                           c("forestgreen",
-                            "blue",
+                            "darkorange2",
                             "goldenrod1",
                             "red",
                             "royalblue4",
@@ -541,12 +547,21 @@ shinyServer(function(input, output,session){
                             "black",
                             "grey",
                             "chartreuse4",
+                            "grey20",
                             "chartreuse2",
-                            "chartreuse3",
-                            "dodgerblue2"))
+                            "dodgerblue2")) +
+      theme(axis.text.x=element_text(angle=90,size=22),
+            axis.text.y=element_text(size=22),
+            panel.background=element_rect(fill='#C2D1E0'),
+            strip.background=element_rect(fill="#2c3e50"),
+            panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+            strip.text.x = element_text(colour = 'white', size = 22),
+            legend.text=element_text(size=24),
+            legend.title=element_blank()) +
+      ylab("") + xlab("")
   }, 
-  height = 900, 
-  width = 1000)
+  height = 700, 
+  width = 1600)
   
   
   tb_tam_base_16a18 <- reactive({
