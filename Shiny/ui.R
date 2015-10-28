@@ -137,11 +137,11 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            column(3,plotOutput('equityscore',height=800),
                                                   wellPanel(h2('bla bla equity',align="left"),align="center")
                                            )
-                                  ),
+                                  )
                                   #column(4,plotOutput("",height=100,width=1300))),
-                                  tabPanel("Compra en el futuro",
-                                           br(),
-                                           br())
+#                                   tabPanel("Compra en el futuro",
+#                                            br(),
+#                                            br())
                                   #column(4,plotOutput("",height=100,width=1300)))
                                 )
                               )
@@ -160,15 +160,15 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               mainPanel(
                                 tabsetPanel(
                                   tabPanel("Lugares en donde vio publicidad",
-                                           column(8,
-                                                  plotOutput('graficapublicidad',height=600,width=600)
+                                           column(10,
+                                                  plotOutput('graficapublicidad',height=750,width=1100)
                                                   ),
-                                           column(4,
+                                           column(2,
                                                   wellPanel(
                                                     
                                                     selectInput(
                                                       'marca', 
-                                                      label = h4('marca'),
+                                                      label = h4('Marca'),
                                                       choices = list(
                                                         'Elektra' = 'Elektra',
                                                         'Coppel' = 'Coppel',

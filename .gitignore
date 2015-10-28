@@ -9,5 +9,6 @@
 *.RData
 *.Rdata
 *.rdata
+*.log
 Shiny/rsconnect/*
 Genera_bases_wordcloud/*

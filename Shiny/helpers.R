@@ -794,6 +794,7 @@ menu5<-function(){
         choices = list(
           'Masculino' = 'Hombre',
           'Femenino' = 'Mujer'),
+        inline = T,
         selected = c('Hombre', 'Mujer')),
       checkboxGroupInput(
         'filtroNiv5', 
@@ -1147,8 +1148,8 @@ fgrafpub<-function(df,marca,medios){
                    lty=3,
                    margin=0.05,
                    filename=NULL,
-                   main.cex=.9,
-                   cat.cex=.7,
+                   main.cex=1.7,
+                   cat.cex=1.5,
                    main.pos=c(.8,1),
                    main=paste('En total se alcanzan ', tot,'personas\n',paste(titulo[1:min(length(unlist(medios)),3)],collapse='\n')))
   return(grid.draw(d1))
