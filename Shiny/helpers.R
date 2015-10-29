@@ -259,6 +259,12 @@ evaluacion<-function(datos,ru){
   }    
 }
 
+# Regresa un df, una lista con df's o un vector.
+# Si la variable de facet es "Total" regresa df,
+# en otro caso regresa una lista en la que cada elemento es un df con 
+# la información de cada nivel de la variable de facet.
+# Si además, el parámetro word_cloud es cierto, entonces regresa un vector con
+# índices. Esto porque los wordclouds solo necesitan los índices.
 filtro <- function(df,
                  edad=unique(df$Edad),
                  genero=unique(df$Genero),
@@ -571,6 +577,7 @@ menu1 <- function(){
           choices = list(
             'Masculino' = 'Hombre',
             'Femenino' = 'Mujer'),
+          inline = T,
           selected = c('Hombre', 'Mujer')),
         checkboxGroupInput(
           'filtroNiv1', 
@@ -622,6 +629,7 @@ menu2<-function(){
         choices = list(
           'Masculino' = 'Hombre',
           'Femenino' = 'Mujer'),
+        inline = T,
         selected = c('Hombre', 'Mujer')),
       checkboxGroupInput(
         'filtroNiv2', 

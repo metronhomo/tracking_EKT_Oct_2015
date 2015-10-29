@@ -499,44 +499,73 @@ shinyServer(function(input, output,session){
   
   data_p11_vs_p11a <- reactive({
     p11_f <- filtro(p11,
-                input$filtroEdad1,
-                input$filtroGen1,
-                input$filtroNiv1,
-                input$filtroTipoCliente1,
+                input$filtroEdad2,
+                input$filtroGen2,
+                input$filtroNiv2,
+                input$filtroTipoCliente2,
                 unique(df$P2_1),
-                input$facet1)
+                input$facet2)
     
     p11a_f <- filtro(p11a,
-                    input$filtroEdad1,
-                    input$filtroGen1,
-                    input$filtroNiv1,
-                    input$filtroTipoCliente1,
+                    input$filtroEdad2,
+                    input$filtroGen2,
+                    input$filtroNiv2,
+                    input$filtroTipoCliente2,
                     unique(df$P2_1),
-                    input$facet1)
+                    input$facet2)
     list(p11_f, p11a_f)
   })
   
   output$plot_p11_vs_p11a <- renderPlot({
     datos_p11 <- data_p11_vs_p11a()[[1]]
     datos_p11a <- data_p11_vs_p11a()[[2]]
-    verifica_checkbox(datos_p11, 0,
-                      input$filtroEdad2,
-                      input$filtroGen2,
-                      input$filtroNiv2,
-                      input$filtroTipoCliente2,
-                      input$filtroTipoProducto2)
-    graphdata <- inner_join(datos_p11, datos_p11a) %>% 
-      group_by(P11, P11a) %>% 
-      summarise(n = round(sum(F_3))) %>%
-      rename(Uso_actual = P11, Segunda_opcion = P11a) %>%
-      ungroup() %>%
-      group_by(Uso_actual) %>%
-      mutate(n2 = sum(n)) %>%
-      ungroup() %>%
-      arrange(desc(n2)) %>%
-      mutate(Uso_actual = factor(Uso_actual, levels = unique(Uso_actual)))
+#     verifica_checkbox(datos_p11, 0,
+#                       input$filtroEdad2,
+#                       input$filtroGen2,
+#                       input$filtroNiv2,
+#                       input$filtroTipoCliente2,
+#                       input$filtroTipoProducto2)
+    facet_p11_vs_p11a <- function() NULL
+    if(class(datos_p11) == "list" && class(datos_p11a) == "list"){
+      if(length(datos_p11) == 0) b = NULL
+      else {
+        d <- lapply(1:length(datos_p11), function(i) {
+          data.frame(Nivel = names(datos_p11)[i], datos_p11[[i]])
+        })
+        datos_p11 <- rbind_all(d)
+        d <- lapply(1:length(datos_p11a), function(i) {
+          data.frame(Nivel = names(datos_p11a)[i], datos_p11a[[i]])
+        })
+        datos_p11a <- rbind_all(d)
+        facet_p11_vs_p11a <- function() facet_wrap(~Nivel)
+        
+        graphdata <- inner_join(datos_p11, datos_p11a) %>% 
+          group_by(P11, P11a, Nivel) %>% 
+          summarise(n = round(sum(F_3))) %>%
+          rename(Uso_actual = P11, Segunda_opcion = P11a) %>%
+          ungroup() %>%
+          group_by(Uso_actual) %>%
+          mutate(n2 = sum(n)) %>%
+          ungroup() %>%
+          arrange(desc(n2)) %>%
+          mutate(Uso_actual = factor(Uso_actual, levels = unique(Uso_actual)))
+      }
+    }
+    else{
+      graphdata <- inner_join(datos_p11, datos_p11a) %>% 
+        group_by(P11, P11a) %>% 
+        summarise(n = round(sum(F_3))) %>%
+        rename(Uso_actual = P11, Segunda_opcion = P11a) %>%
+        ungroup() %>%
+        group_by(Uso_actual) %>%
+        mutate(n2 = sum(n)) %>%
+        ungroup() %>%
+        arrange(desc(n2)) %>%
+        mutate(Uso_actual = factor(Uso_actual, levels = unique(Uso_actual)))
+    }
     ggplot(graphdata) + 
-      geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), stat = 'identity') +
+      geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), color = "black", stat = 'identity') +
+      facet_p11_vs_p11a() +
       scale_fill_manual(values = 
                           c("forestgreen",
                             "darkorange2",
