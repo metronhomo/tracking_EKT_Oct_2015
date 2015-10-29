@@ -165,7 +165,6 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                   ),
                                            column(2,
                                                   wellPanel(
-                                                    
                                                     selectInput(
                                                       'marca', 
                                                       label = h4('Marca'),
@@ -208,7 +207,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            h3(textOutput("txt_p17"),align="center"),
                                            column(4,plotOutput("plot_p17",height=100,width=1300))),
                                   tabPanel("Score comerciales",
-                                           plotOutput('graficascorepublicidad',height=600)),,
+                                           plotOutput('graficascorepublicidad',height=600)),
                                            #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Qué recuerda de la publicidad de Coppel",
                                            h3(textOutput("txt_p19_1"),align="center"),
