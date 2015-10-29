@@ -567,18 +567,18 @@ shinyServer(function(input, output,session){
       geom_bar(aes(x = Uso_actual, y = n, fill = Segunda_opcion), color = "black", stat = 'identity') +
       facet_p11_vs_p11a() +
       scale_fill_manual(values = 
-                          c("forestgreen",
-                            "darkorange2",
-                            "goldenrod1",
-                            "red",
-                            "royalblue4",
-                            "deeppink",
-                            "black",
-                            "grey",
-                            "chartreuse4",
-                            "grey20",
-                            "chartreuse2",
-                            "dodgerblue2")) +
+                          c("Bodega Aurrerá" = "forestgreen",
+                            "Chedraui" = "darkorange2",
+                            "Coppel" = "goldenrod1",
+                            "Elektra" = "red",
+                            "Famsa" = "royalblue4",
+                            "Liverpool" = "deeppink",
+                            "Otros" = "black",
+                            "Salinas y Rocha" = "grey",
+                            "Soriana" = "chartreuse4",
+                            "Tiendas de Electrónica" = "grey20",
+                            "Viana" = "chartreuse2",
+                            "Walmart" = "dodgerblue2")) +
       theme(axis.text.x=element_text(angle=90,size=22),
             axis.text.y=element_text(size=22),
             panel.background=element_rect(fill='#C2D1E0'),
