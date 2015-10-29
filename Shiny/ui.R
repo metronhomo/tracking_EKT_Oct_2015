@@ -207,9 +207,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   tabPanel("Cómo lo hizo sentir con respecto a EKT",
                                            h3(textOutput("txt_p17"),align="center"),
                                            column(4,plotOutput("plot_p17",height=100,width=1300))),
-                                  tabPanel("Score comerciales EKT",
-                                           br(),
-                                           br()),
+                                  tabPanel("Score comerciales",
+                                           plotOutput('graficascorepublicidad',height=600)),,
                                            #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Qué recuerda de la publicidad de Coppel",
                                            h3(textOutput("txt_p19_1"),align="center"),
@@ -219,10 +218,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            column(12,plotOutput("nube_P19A_1"), align = "center")),
                                   tabPanel("Cómo lo hizo sentir con respecto a Coppel",
                                            h3(textOutput("txt_p20"),align="center"),
-                                           column(4,plotOutput("plot_p20",height=100,width=1300))),
-                                  tabPanel("Score comerciales Coopel",
-                                           br(),
-                                           br())
+                                           column(4,plotOutput("plot_p20",height=100,width=1300)))
+                                  
                                            #column(4,plotOutput("",height=100,width=1300)))
                                 )
                               )
