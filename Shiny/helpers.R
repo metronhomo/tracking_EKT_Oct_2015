@@ -570,6 +570,7 @@ menu1 <- function(){
           choices = list(
             '25 - 35' = '25-35',
             '36 - 55' = '36-55'),
+          inline = T,
           selected = c('25-35', '36-55')),
         checkboxGroupInput(
           'filtroGen1', 
@@ -586,6 +587,7 @@ menu1 <- function(){
             'C-' = 'C-',
             'D+' = 'D+',
             'D' = 'D'),
+          inline = T,
           selected = c(
             'C-',
             'D+',
@@ -622,6 +624,7 @@ menu2<-function(){
         choices = list(
           '25 - 35' = '25-35',
           '36 - 55' = '36-55'),
+        inline = T,
         selected = c('25-35', '36-55')),
       checkboxGroupInput(
         'filtroGen2', 
@@ -638,6 +641,7 @@ menu2<-function(){
           'C-' = 'C-',
           'D+' = 'D+',
           'D' = 'D'),
+        inline = T,
         selected = c(
           'C-',
           'D+',
@@ -693,6 +697,7 @@ menu3<-function(){
         choices = list(
           '25 - 35' = '25-35',
           '36 - 55' = '36-55'),
+        inline = T,
         selected = c('25-35', '36-55')),
       checkboxGroupInput(
         'filtroGen3', 
@@ -700,6 +705,7 @@ menu3<-function(){
         choices = list(
           'Masculino' = 'Hombre',
           'Femenino' = 'Mujer'),
+        inline = T,
         selected = c('Hombre', 'Mujer')),
       checkboxGroupInput(
         'filtroNiv3', 
@@ -708,6 +714,7 @@ menu3<-function(){
           'C-' = 'C-',
           'D+' = 'D+',
           'D' = 'D'),
+        inline = T,
         selected = c(
           'C-',
           'D+',
@@ -744,6 +751,7 @@ menu4<-function(){
         choices = list(
           '25 - 35' = '25-35',
           '36 - 55' = '36-55'),
+        inline = T,
         selected = c('25-35', '36-55')),
       checkboxGroupInput(
         'filtroGen4', 
@@ -751,6 +759,7 @@ menu4<-function(){
         choices = list(
           'Masculino' = 'Hombre',
           'Femenino' = 'Mujer'),
+        inline = T,
         selected = c('Hombre', 'Mujer')),
       checkboxGroupInput(
         'filtroNiv4', 
@@ -759,6 +768,7 @@ menu4<-function(){
           'C-' = 'C-',
           'D+' = 'D+',
           'D' = 'D'),
+        inline = T,
         selected = c(
           'C-',
           'D+',
@@ -795,6 +805,7 @@ menu5<-function(){
         choices = list(
           '25 - 35' = '25-35',
           '36 - 55' = '36-55'),
+        inline = T,
         selected = c('25-35', '36-55')),
       checkboxGroupInput(
         'filtroGen5', 
@@ -811,6 +822,7 @@ menu5<-function(){
           'C-' = 'C-',
           'D+' = 'D+',
           'D' = 'D'),
+        inline = T,
         selected = c(
           'C-',
           'D+',

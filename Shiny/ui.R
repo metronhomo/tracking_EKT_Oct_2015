@@ -97,7 +97,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                  downloadButton('d3',
                                                                 'Descarga la base filtrada')
                                 ),
-                                width = 3
+                                width = 2
                               ),
                               mainPanel(tabsetPanel(
                                 tabPanel('Resultados de la batería',
@@ -106,7 +106,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                              por marca para cada atributo.',align="left"),align="center")
                                                 )
                                          ),
-                                tabPanel('resumen por dimensión',
+                                tabPanel('Resumen por dimensión',
                                          column(12,plotOutput('plotimagen',height=750),
                                                 wellPanel(h2('En esta imagen se encuentran resumidos los items de la batería en 7
                                                              dimensiones principales. La línea punteada indica el score promedio de la población.'
@@ -126,7 +126,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                  downloadButton('d4',
                                                                 'Descarga la base filtrada')
                                 ),
-                                width = 3
+                                width = 2
                               ),    
                               mainPanel(
                                 tabsetPanel(
@@ -155,13 +155,13 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                  downloadButton('d5',
                                                                 'Descarga la base filtrada')
                                 ),
-                                width = 3
+                                width = 2
                               ),    
                               mainPanel(
                                 tabsetPanel(
                                   tabPanel("Lugares en donde vio publicidad",
                                            column(10,
-                                                  plotOutput('graficapublicidad',height=750,width=1100)
+                                                  plotOutput('graficapublicidad',height=750,width=1050)
                                                   ),
                                            column(2,
                                                   wellPanel(
