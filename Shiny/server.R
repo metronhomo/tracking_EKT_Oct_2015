@@ -916,7 +916,7 @@ shinyServer(function(input, output,session){
     list(src='images/consideraciontotal.png',
          filetype='image/png',
          alt='wiiii',
-         height = 950, 
+         height = 800, 
          width = 1500)
   }, 
   deleteFile = F)
@@ -928,7 +928,7 @@ shinyServer(function(input, output,session){
     list(src='images/consideracionekt.png',
          filetype='image/png',
          alt='wiiii',
-         height = 950, 
+         height = 800, 
          width = 1500)
   }, 
   deleteFile = F)
@@ -940,7 +940,7 @@ shinyServer(function(input, output,session){
     list(src='images/consideracioncomp.png',
          filetype='image/png',
          alt='wiiii',
-         height = 950, 
+         height = 800, 
          width = 1500)
   }, 
   deleteFile = F)
