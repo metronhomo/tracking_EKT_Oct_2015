@@ -1184,6 +1184,112 @@ fgrafpub<-function(df,marca,medios){
 
 
 
+grafica_calificacion_comerciales<-function(df){
+  
+  
+  names(df)
+  
+  bateria<-425:438
+  
+  head(df[,bateria])
+  levels(df[,bateria[1]])
+  df[,bateria][df[,bateria]==' ']<-NA
+  df[,bateria]<-droplevels(df[,bateria])
+  
+  df2<-df[,bateria]
+  
+  for(i in 1:length(bateria)){
+    df2[,i]<-as.numeric(df2[,i])
+  }
+  
+  df2<-4-df2
+  
+  elektra<-apply(df2,2,weighted.mean,df$F_3,na.rm=T)
+  
+  
+  
+  
+  bateria2<-442:455
+  
+  
+  head(df[,bateria2])
+  levels(df[,bateria2[1]])
+  df[,bateria2][df[,bateria2]==' ']<-NA
+  df[,bateria2]<-droplevels(df[,bateria2])
+  
+  df2<-df[,bateria2]
+  
+  for(i in 1:length(bateria2)){
+    df2[,i]<-as.numeric(df2[,i])
+  }
+  
+  df2<-4-df2
+  
+  coppel<-apply(df2,2,weighted.mean,df$F_3,na.rm=T)
+  
+  dt<-as.data.frame(cbind(elektra,coppel))
+  
+  dt$variable<-c('interesante',
+                 'para gente como yo',
+                 'me dice algo importante',
+                 'creíble',
+                 'se adecúa a la manera en\nque percibo esta marca',
+                 'con humor',
+                 'entretenido',
+                 'único',
+                 'confuso',
+                 'irrtante',
+                 'ofensivo',
+                 'me hace pernsar\nque es diferente',
+                 'dice algo nuevo',
+                 'medice algo que me\n interesa particularmente')
+  
+  
+  
+  r2<-dt %>%
+    tidyr::gather('concepto','valor',-variable)
+  
+  
+  names(r2)<-c('variable','concepto','valor')
+  
+  
+  g<-ggplot(data=r2,aes(x=variable,y=valor)) + 
+    geom_point(aes(group=concepto),size=11) +
+    #geom_rect(aes(xmin=6.5, xmax=7.5, ymin=-Inf,ymax=Inf), alpha=0.005,fill='blue')+
+    
+    theme(
+      axis.text=element_text(size=16))+
+    
+    
+    geom_point(aes(colour=concepto,group=concepto),size=10) +
+    scale_colour_manual(values = c('red','goldenrod1')) +
+    ylim(1,3) +
+    theme(axis.text.x=element_text(angle=90,size=20, hjust = 1),
+          axis.text.y=element_text(size=22),
+          panel.background=element_rect(fill='#C2D1E0'),
+          strip.background=element_rect(fill="#2c3e50"),
+          panel.border = element_rect(colour = "#2c3e50", fill=NA, size=1),
+          strip.text.x = element_text(colour = 'white', size = 22),
+          legend.title=element_blank(),
+          legend.text = element_text(size = 22),
+          axis.title=element_text(size=22),
+          plot.title = element_text(size=22)) +
+    xlab('Variable') +
+    ylab('Promedio') +
+    ggtitle('Promedio de calificación por variable')
+  
+  
+  return(g)
+  
+}
+
+
+
+
+
+
+
+
 
 
 
