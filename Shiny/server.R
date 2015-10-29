@@ -974,4 +974,21 @@ shinyServer(function(input, output,session){
   
   
   
+  data_gp <- reactive({
+    bateriab<-filtro(df,
+                     input$filtroEdad5,
+                     input$filtroGen5,
+                     input$filtroNiv5,
+                     input$filtroTipoCliente5)
+    return(bateriab)
+  })
+  
+  output$graficascorepublicidad<-renderPlot({
+    datos<-data_gp()
+    grafica_calificacion_comerciales(datos)
+  })
+  
+  
+  
+  
 })
