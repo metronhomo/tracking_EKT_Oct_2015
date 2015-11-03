@@ -153,7 +153,7 @@ p14 <- function(data){
     xtabs(base_im$F_3~c,data=mr)/nrow(base_im)
   }))
   conteos <- cbind(atributo= rownames(conteos),conteos)
-  colnames(conteos) <- c( "Elektra","Coppel","Famsa","Bodega Aurrera", "Walmart","Liverpool")
+  colnames(conteos) <- c( "Elektra","Coppel","Famsa","Bodega  Aurrera", "Walmart","Liverpool")
   aux<-gather(conteos,"Tienda","Valor",-atributo)
   
   aux$Tienda <- apply(as.data.frame(aux$Tienda),2,function(r){gsub("P14_","",r)})
@@ -190,7 +190,7 @@ p15 <- function(don){
 funp15<-function(){
   gy <- data.frame(do.call(cbind,lapply(marcas,p15)))
   gh <- gy[,c(1,3,6,9,12,15,18)]
-  colnames(gh) <-c("Medio","Elektra","Coppel","Famsa","Bodega Aurrera","Walmart","Liverpool")
+  colnames(gh) <-c("Medio","Elektra","Coppel","Famsa","Bodega  Aurrera","Walmart","Liverpool")
   aux<-gather(gh,"Tienda","Porcentaje",-Medio)
   return(aux)
 }
@@ -874,7 +874,7 @@ grafica_dimensiones<-function(bateria_subconjunto){
   r$dimension<-c('Status','Post-Venta','Básicos','Experiencia en tienda','Economía',
                  'Encontró lo que buscaba','Atención rápida')
   
-  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  names(r)<-c('Bodega ','Coppel','Elektra','Famsa','Liverpool','Walmart','dimension')
   
   r2<-r %>%
     tidyr::gather('concepto','valor',-dimension)
@@ -889,7 +889,7 @@ grafica_dimensiones<-function(bateria_subconjunto){
     geom_point(aes(colour=concepto,group=concepto),size=10) +
     scale_colour_manual(values = c('forestgreen','goldenrod1', 
                                    'red','royalblue4','deeppink','dodgerblue2')) +
-    theme(axis.text.x=element_blank(),
+    theme(axis.text.x=element_text(angle=90,size=20, hjust = 1),
           axis.text.y=element_text(size=22),
           panel.background=element_rect(fill='#C2D1E0'),
           strip.background=element_rect(fill="#2c3e50"),
@@ -924,7 +924,7 @@ grafica_bateria<-function(bateria_subconjunto){
   r<-do.call(rbind,r)
   r<-as.data.frame(r)
   r$dimension<-names(basebis)[1:22]
-  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  names(r)<-c('Bodega ','Coppel','Elektra','Famsa','Liverpool','Walmart','dimension')
   
   
   r<-r[c(22,
@@ -996,7 +996,7 @@ grafica_bateria_equity<-function(bateria_subconjunto){
   r<-do.call(rbind,r)
   r<-as.data.frame(r)
   r$dimension<-names(basebis)[1:6]
-  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  names(r)<-c('Bodega ','Coppel','Elektra','Famsa','Liverpool','Walmart','dimension')
   
   
   r$dimension<-factor(r$dimension,levels=r$dimension)
@@ -1056,7 +1056,7 @@ grafica_bateria_equity_score<-function(bateria_subconjunto){
   r<-do.call(rbind,r)
   r<-as.data.frame(r)
   r$dimension<-names(basebis)[1]
-  names(r)<-c('bodega','coppel','elektra','famsa','liverpool','walmart','dimension')
+  names(r)<-c('Bodega ','Coppel','Elektra','Famsa','Liverpool','Walmart','dimension')
   
   
   r$dimension<-factor(r$dimension,levels=r$dimension)

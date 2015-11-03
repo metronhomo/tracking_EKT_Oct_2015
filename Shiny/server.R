@@ -862,7 +862,7 @@ shinyServer(function(input, output,session){
   
   #Información de contacto-----------
   output$contacto<-renderImage({
-    list(src='images/contacto.png',
+    list(src='images/contacto2.png',
          filetype='image/png',
          alt='wiiii',
          width = 1200,
