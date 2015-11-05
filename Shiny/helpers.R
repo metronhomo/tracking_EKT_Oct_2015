@@ -1286,6 +1286,86 @@ grafica_calificacion_comerciales<-function(df){
 
 
 
+abiertas <- function(datos,ru){
+        if(ru==1){
+                conteos<- apply(select(datos, -F_3), 2, function(c){
+                        xtabs(datos$F_3 ~c,data=select(datos, -F_3))
+                })
+                
+                aux<-data.frame()
+                aux<-lapply(conteos,function(l){
+                        n<-length(l)
+                        if(n!=0){
+                                rbind(aux,data.frame(linea=as.character(names(l)),
+                                                     valor=as.numeric(l[1:n]),
+                                                     stringsAsFactors = F)) 
+                        }
+                })
+                
+                aux3<-rbind_all(aux) %>%
+                        filter(linea !="") %>%
+                        filter(linea !=" ") %>%
+                        group_by(linea) %>%
+                        summarise(valor=sum(valor)) %>%
+                        mutate(Porcentaje=valor/sum(datos$F_3)) %>%
+                        data.frame() %>%
+                        arrange(desc(Porcentaje))
+                
+                aux3$linea <- factor(aux3$linea,levels=unique(as.character(aux3$linea)))
+                aux4<-aux3[!(aux3$Porcentaje<"0.02"),]
+                aux5 <- aux4[match(target,aux4$linea),]
+                aux5 <- aux5[complete.cases(aux5),]
+                aux5$Porcentaje <- aux5$Porcentaje*100
+                aux5 <- aux5[,c(1,3)]
+                
+                return(aux5)
+        }
+        
+        if(ru==2){
+                conteos<- apply(select(datos, -F_3), 2, function(c){
+                        xtabs(datos$F_3 ~c,data=select(datos, -F_3))
+                })
+                
+                aux<-data.frame()
+                aux<-lapply(conteos,function(l){
+                        n<-length(l)
+                        if(n!=0){
+                                rbind(aux,data.frame(linea=as.character(names(l)),
+                                                     valor=as.numeric(l[1:n]),
+                                                     stringsAsFactors = F)) 
+                        }
+                })
+                
+                aux3<-rbind_all(aux) %>%
+                        filter(linea !="") %>%
+                        filter(linea !=" ") %>%
+                        group_by(linea) %>%
+                        summarise(valor=sum(valor)) %>%
+                        mutate(Porcentaje=valor/sum(datos$F_3)) %>%
+                        data.frame() %>%
+                        arrange(desc(Porcentaje))
+                
+                aux3$linea <- factor(aux3$linea,levels=unique(as.character(aux3$linea)))
+                aux4<-aux3[!(aux3$Porcentaje<"0.02"),]
+                aux5 <- aux4[match(target2,aux4$linea),]
+                aux5 <- aux5[complete.cases(aux5),]
+                aux5$Porcentaje <- aux5$Porcentaje*100
+                aux5 <- aux5[,c(1,3)]
+                
+                return(aux5)
+                
+        }
+        
+        
+        
+}
+
+
+
+
+
+
+
 
 
 

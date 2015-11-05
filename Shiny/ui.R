@@ -39,13 +39,16 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            h3(textOutput("txt_p3"),align="center"),
                                            br(),
                                            wellPanel(style = "background-color: white;",
-                                                     h4("Se presenta la primer mención espontánea y total menciones espontáneas de conocimiento para cada marca del set competitivo.",
+                                                     h4("Se presenta la primer mención espontánea y total menciones espontáneas de 
+                                                        conocimiento para cada marca del set competitivo.",
                                                      align="center"),align="center"),
                                            column(5,plotOutput("plot_p3",height=100,width=1300)),align="center"),
                                   tabPanel("Top y share of Mind de publicidad",
                                            h3(textOutput("txt_p4"),align="center"),
                                            br(),
-                                           wellPanel(style = "background-color: white;",h4("Se presenta la primer mención espontánea y total menciones espontáneas de conocimiento publicitario para cada marca del set competitivo.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se presenta la primer mención
+                                           espontánea y total menciones espontáneas de conocimiento publicitario para cada marca
+                                           del set competitivo.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p4",height=100,width=1300)),align="center"),
 #                                   tabPanel("Guiado de marca",
 #                                            h3(textOutput("txt_p5"),align="center"),
@@ -54,7 +57,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   tabPanel("Total Conocimiento - Publicidad",
                                            h3(textOutput("txt_p6"),align="center"),
                                            br(),
-                                           wellPanel(style = "background-color: white;",h4("Aquí se incluyen las menciones espontáneas y ayudadas de conocimiento publicitario.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Aquí se incluyen las menciones 
+                                           espontáneas y ayudadas de conocimiento publicitario.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p6_Guiado",height=100,width=1300)),align="center"),
 #                                   tabPanel("Consideración de uso",
 #                                            h3(textOutput("txt_p7"),align="center"),
@@ -63,40 +67,53 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   tabPanel("Uso alguna vez",
                                          h3(textOutput("txt_p10"),align="center"),
                                          br(),
-                                         wellPanel(style = "background-color: white;",h4("Se muestran todas las tiendas ocupadas en alguna ocasión,sin importar cuánto tiempo tenga de esto.",align="center"),align="center"),
+                                         wellPanel(style = "background-color: white;",h4("Se muestran todas las tiendas
+                                          ocupadas en alguna ocasión,sin importar cuánto tiempo tenga de esto.",align="center"),align="center"),
                                          column(4,plotOutput("plot_p10",height=100,width=1300)),align="center"),
                                   tabPanel("Uso U12",
                                            h3(textOutput("txt_p9"),align="center"),
                                            br(),                                           
-                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compraron algún artículo de electrónica, línea blanca, telefonía,cómputo y/o muebles dentro de los últimos 12 meses.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compraron
+                                           algún artículo de electrónica, línea blanca, telefonía,cómputo y/o muebles dentro de los últimos
+                                           12 meses.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p9",height=100,width=1300)),align="center"),
                                   tabPanel("Uso actual",
                                            h3(textOutput("txt_p8"),align="center"),
                                            br(),
-                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compran artículo de electrónica,línea blanca, telefonía, cómputo y/o muebles actualmente.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compran 
+                                           artículo de electrónica,línea blanca, telefonía, cómputo y/o muebles actualmente.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p8",height=100,width=1300)),align="center"),
                                   tabPanel("Uso de mayor frecuencia",
                                            h3(textOutput("txt_p11"),align="center"),
                                            br(),                                           
-                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compran artículo de electrónica,línea blanca, telefonía, cómputo y/o muebles con mayor frecuencia.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Tiendas en las que los entrevistados compran artículo
+                                           de electrónica,línea blanca, telefonía, cómputo y/o muebles con mayor frecuencia.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p11",height=100,width=1300)),align="center"),
                                   tabPanel("Alternativa de compra",
                                            h3(textOutput("txt_p11a"),align="center"),
                                            br(),                                          
-                                           wellPanel(style = "background-color: white;",h4("Se muestran las tiendas en las que los entrevistados elegirían si tuvieran que decidir comprar un artículo en otra tienda que no fuera su tienda más frecuente.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se muestran las tiendas en las que los entrevistados elegirían 
+                                           si tuvieran que decidir comprar un artículo en otra tienda que no fuera su tienda más frecuente.",align="center"),align="center"),
                                            column(4,plotOutput("plot_p11a",height=100,width=1300)),align="center"),
                                   tabPanel("Uso frecuente vs alternativa de compra",
                                            #h3(textOutput("txt_p11a"),align="center"),
                                            br(),
+                                           wellPanel(style = "background-color: white;",h4("Se muestran las tiendas en las que los entrevistados compran más 
+                                           frecuentemente (eje “X”),vs. La tienda en la que comprarían como segunda opción 
+                                           (eje “Y”).",align="center"),align="center"),
                                            column(4,plotOutput("plot_p11_vs_p11a",height=100,width=1300)),align="center"),
                                   tabPanel("Funnel de Consideración a Total",
-                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión del mercado desde el conocimiento de las marcas hasta su uso frecuente.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión del mercado desde el conocimiento
+                                           de las marcas hasta su uso frecuente.",align="center"),align="center"),
                                            column(12,imageOutput('consideraciontotal'),align="center")),
                                   tabPanel("Funnel de Consideración Clientes EKT",
-                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión de los clientes EKT desde el conocimiento de las marcas hasta su uso frecuente.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión de los clientes EKT desde el 
+                                           conocimiento de las marcas hasta su uso frecuente.",align="center"),align="center"),
                                            column(10,imageOutput('consideracionekt'),align="center")),
                                   tabPanel("Funnel de Consideración Competencia",
-                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión de los clientes de la competencia desde el conocimiento de las marcas hasta su uso frecuente. Considerar en su lectura que hay en esta muestra una mezcla de usuarios de tiendas de la competencia.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se muestra la conversión de los clientes de la competencia
+                                           desde el conocimiento de las marcas hasta su uso frecuente. Considerar en su lectura que hay en esta muestra
+                                           una mezcla de usuarios de tiendas de la competencia.",align="center"),align="center"),
                                            column(10,imageOutput('consideracioncomp'),align="center"))
                                 )
                               )
@@ -114,7 +131,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               ),
                               mainPanel(tabsetPanel(
                                 tabPanel('Resultados de la batería',
-                                         wellPanel(style = "background-color: white;",h4("Se muestra la percepción de las compañías por parte de los usuarios. El porcentaje representa el número de asignaciones de un atributo a la marca. ",align="center"),align="center"),
+                                         wellPanel(style = "background-color: white;",h4("Se muestra la percepción de las compañías por parte de 
+                                         los usuarios. El porcentaje representa el número de asignaciones de un atributo a la marca. ",align="center"),align="center"),
                                          column(12,plotOutput('plotbateria',height=750),
                                                 wellPanel(style = "background-color: white;",h4('En esta gráfica se encuentran representados los porcentajes de asociación
                                                                                          por marca para cada atributo.',align="left"),align="center")
@@ -122,9 +140,10 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                                 )
                                          ),
                                 tabPanel('Resumen por dimensión',
-                                         wellPanel(style = "background-color: white;",h4('En esta imagen se encuentran resumidos los items de la batería en 7
-                                                             dimensiones principales. La línea punteada indica el score promedio de la población.'
-                                                      ,align="left"),align="center"),
+                                         wellPanel(style = "background-color: white;",h4("Se muestra la percepción de las marcas por parte de los usuarios. 
+                                         En este caso en 7 dimensiones que representan atributos agrupados mediante factorización y que fueron nombrados de 
+                                          acuerdo a lo que representan. La línea punteada representa el score promedio de los consultados.",
+                                         align="left"),align="center"),
                                          column(12,plotOutput('plotimagen',height=750)
 
                                                 )
@@ -147,7 +166,9 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               mainPanel(
                                 tabsetPanel(
                                   tabPanel('Score',
-                                           wellPanel(style = "background-color: white;",h4("Se muestra el score de brand equity (valor de la marca) calculado a partir de los atributos principales que dan peso a una marca en la mente del consumidor.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se muestra el score de brand equity (valor de la marca)
+                                           calculado a partir de los atributos principales que dan peso a una marca en la mente del consumidor.",
+                                           align="center"),align="center"),
                                            column(9,plotOutput('equitybateria',height=800)
                                            ),
                                            column(3,plotOutput('equityscore',height=800)
@@ -175,7 +196,9 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                               mainPanel(
                                 tabsetPanel(
                                   tabPanel("Lugares en donde vio publicidad",
-                                           wellPanel(style = "background-color: white;",h4("Se presentan los medios donde los entrevistados recuerdan haber visto, leído o escuchado publicidad de las marcas que conoce, el alcance y frecuencia declarado de cada medio.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("Se presentan los medios donde los entrevistados recuerdan 
+                                            haber visto, leído o escuchado publicidad de las marcas que conoce, el alcance y frecuencia declarado de 
+                                            cada medio.",align="center"),align="center"),
                                            column(10,
                                                   plotOutput('graficapublicidad',height=750,width=1050)
                                                   ),
@@ -214,35 +237,105 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            ),
                                            #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Qué recuerda de la publicidad de EKT",
-                                           wellPanel(style = "background-color: white;",h4("Las palabras más grandes son las más mencionadas por los entrevistados de lo que recuerdan de la publicidad de EKT, conforme la dimensión de las palabras disminuye, significa que hubo menores menciones.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("La nube representa la importancia de las palabras 
+                                           mencionadas por cada uno de los entrevistados con respecto a lo que recuerdan
+                                           o sienten respecto a la marca, entre mayor sea el tamaño es mayor el porcentaje que dicha palabra fue mencionada y asociada a EKT.",
+                                           align="center"),align="center"),
                                            h3(textOutput("txt_p16_1"),align="center"),
                                            column(12,plotOutput("nube_P16_1"), align = "center")),
                                   tabPanel("Qué ideas le transmitió la publicidad de EKT",
-                                           wellPanel(style = "background-color: white;",h4("Las palabras más grandes son las más mencionadas por los entrevistados de lo que recuerdan de la publicidad de EKT, conforme la dimensión de las palabras disminuye, significa que hubo menores menciones.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("La nube representa la importancia de las palabras
+                                           mencionadas por cada uno de los entrevistados con respecto a lo que recuerdan o
+                                           sienten respecto a la marca, entre mayor sea el tamaño es mayor el porcentaje que dicha palabra 
+                                           fue mencionada y asociada a EKT.",align="center"),align="center"),
                                            h3(textOutput("txt_p16a_1"),align="center"),
                                            column(12,plotOutput("nube_P16A_1"), align="center")),
                                   tabPanel("Cómo lo hizo sentir con respecto a EKT",
-                                           wellPanel(style = "background-color: white;",h4("De los entrevistados que recuerdan publicidad de EKT, se muestra si cambió para bien o para mal su percepción de la marca. ",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("De los entrevistados que recuerdan 
+                                           publicidad de EKT, se muestra si cambió para bien o para mal su percepción de la marca. ",
+                                           align="center"),align="center"),
                                            h3(textOutput("txt_p17"),align="center"),
                                            column(4,plotOutput("plot_p17",height=100,width=1300))),
                                   tabPanel("Score comerciales",
                                            plotOutput('graficascorepublicidad',height=600)),
                                            #column(4,plotOutput("",height=100,width=1300))),
                                   tabPanel("Qué recuerda de la publicidad de Coppel",
-                                           wellPanel(style = "background-color: white;",h4("Las palabras más grandes son las más mencionadas
-                                           por los entrevistados de lo que recuerdan de la publicidad de Coppel, 
-                                           conforme la dimensión de las palabras disminuye, significa que hubo menores menciones.",
+                                           wellPanel(style = "background-color: white;",h4("La nube representa la importancia de las palabras mencionadas por 
+                                           cada uno de los entrevistados con respecto a lo que recuerdan o sienten respecto a la marca, 
+                                           entre mayor sea el tamaño es mayor el porcentaje que dicha palabra fue mencionada y asociada a Coppel.",
                                            align="center"),align="center"),
                                            h3(textOutput("txt_p19_1"),align="center"),
                                            column(12,plotOutput("nube_P19_1"), align = "center")),
                                   tabPanel("Qué ideas le transmitió la publicidad de Coppel",
-                                           wellPanel(style = "background-color: white;",h4("Las palabras más grandes son las más mencionadas por los entrevistados de lo que recuerdan de la publicidad de Coppel, conforme la dimensión de las palabras disminuye, significa que hubo menores menciones.",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("La nube representa la importancia de las
+                                           palabras mencionadas por cada uno de los entrevistados con respecto a lo que recuerdan o sienten 
+                                           respecto a la marca, entre mayor sea el tamaño es mayor el porcentaje que dicha palabra fue mencionada
+                                           y asociada a Coppel.",align="center"),align="center"),
                                            h3(textOutput("txt_p19a_1"),align="center"),
                                            column(12,plotOutput("nube_P19A_1"), align = "center")),
                                   tabPanel("Cómo lo hizo sentir con respecto a Coppel",
-                                           wellPanel(style = "background-color: white;",h4("De los entrevistados que recuerdan publicidad de Coppel, se muestra si cambió para bien o para mal su percepción de la marca ",align="center"),align="center"),
+                                           wellPanel(style = "background-color: white;",h4("De los entrevistados que recuerdan publicidad de 
+                                           Coppel, se muestra si cambió para bien o para mal su percepción de la marca ",
+                                           align="center"),align="center"),
                                            h3(textOutput("txt_p20"),align="center"),
-                                           column(4,plotOutput("plot_p20",height=100,width=1300)))
+                                           column(4,plotOutput("plot_p20",height=100,width=1300))),
+                                  tabPanel("Recordación de Contenidos EKT",
+                                           h3(textOutput("txt_open2"),align="center"), fluidPage(
+                                                   column(12,
+                                                          wellPanel(style = "background-color: white;",align="center",tags$ul(
+                                                                  tags$li("Correctos y específicos: Recordación puntual de elementos contenidos.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Genéricos: Comunes a la marca, ej: Slogan",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Comunes a la categoría: Podrían ser asignados a cualquier marca de la categoría.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Incorrectos: Elementos que no salen en la publicidad o corresponden a otra marca.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("No identificados: No se encuentra material para afirmar o negar que estas menciones corresponden a la publicidad de la marca.",
+                                                                          style = "color:black;font-size:10pt",align="justify"))),align="rigth")),
+                                           wellPanel(style = "background-color: white;",h4("Menciones menores al 2% no se muestran en
+                                           el siguiente listado",align="center"),align="center"),
+                                           h2(textOutput("text2"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table2'), align = "center",style = "background-color:white"),
+                                            h2(textOutput("text3"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table4'), align = "center",style = "background-color:white"),
+                                           h2(textOutput("text4"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table5'), align = "center",style = "background-color:white"),
+                                            h2(tableOutput("text5"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           # column(12,tableOutput('table10'), align = "center",style = "background-color:white;color:red"),
+                                          h2(textOutput("text11"),align="center",style = "background-color: #2c3e50;color:white"),
+                                          h2(textOutput("text12"),align="center",style = "background-color: #2c3e50;color:white")),
+                                  
+                                  tabPanel("Recordación de Contenidos Coppel",
+                                           h3(textOutput("txt_open1"),align="center"),
+                                           fluidPage(
+                                                   column(12,
+                                                          wellPanel(style = "background-color: white;",align="center",tags$ul(
+                                                                  tags$li("Correctos y específicos: Recordación puntual de elementos contenidos.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Genéricos: Comunes a la marca, ej: Slogan",
+                                                                                  style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Comunes a la categoría: Podrían ser asignados a cualquier marca de la categoría.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("Incorrectos: Elementos que no salen en la publicidad o corresponden a otra marca.",
+                                                                          style = "color:black;font-size:10pt",align="justify"),
+                                                                  tags$li("No identificados: No se encuentra material para afirmar o negar que estas menciones corresponden a la publicidad de la marca.",
+                                                                          style = "color:black;font-size:10pt",align="justify"))),align="rigth")),
+                                           wellPanel(style = "background-color: white;",h4("Menciones menores al 2% no se muestran en
+                                           el siguiente listado",align="center"),align="center"),
+                                           h2(textOutput("text6"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table6'), align = "center",style = "background-color:white"),
+                                           
+                                           h2(textOutput("text7"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table7'), align = "center",style = "background-color:white"),
+                                           
+                                           h2(textOutput("text8"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           column(12,tableOutput('table8'), align = "center",style = "background-color:white"),
+                                           h2(textOutput("text9"),align="center",style = "background-color: #2c3e50;color:white"),
+                                           h2(textOutput("text20"),align="center",style = "background-color: #2c3e50;color:white"))
+                                           # column(12,tableOutput('table9'), align = "center",style = "background-color:white;color:red"))
+                                           
+                                  # column(12,tableOutput('table6'), align = "center")),
                                   
                                            #column(4,plotOutput("",height=100,width=1300)))
                                 )
@@ -283,7 +376,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                   de productos /mercancía, buenas promociones, personal amable, instalaciones atractivas, 
                                   acomodo de los productos adecuado, precios accesibles de contado y 
                                   atención rápida",style = "color:#C2D1E0;font-size:18pt",align="justify"),
-                                tags$li("El Brand Equity para Elektra con clientes de competencia es muy bajo 6.7%,  
+                                tags$li("El Brand Equity para Elektra con clientes de competencia es muy bajo 6.2%,  
                                   sin embargo dentro de los usuarios de EKT hay una clara mejor 
                                   percepción de Equity.",style = "color:#C2D1E0;font-size:18pt",align="justify"),
                                 tags$li("La recordación espontánea se centra en elementos muy generales, tiene menciones específicas un tanto pulverizadas, 

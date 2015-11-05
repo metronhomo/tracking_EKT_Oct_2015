@@ -617,6 +617,37 @@ shinyServer(function(input, output,session){
     return(b)
   })  
   
+  
+  
+  
+  
+  tb_tam_base_open <- reactive({
+          a <- p19 %>% filter(p19$P19_1_COD_1 != "")
+          b <- tam_base(a,
+                        input$filtroEdad5,
+                        input$filtroGen5,
+                        input$filtroNiv5,
+                        input$filtroTipoCliente5,
+                        input$filtroTipoProducto5)
+          return(b)
+  }) 
+  
+  
+  tb_tam_base_open2 <- reactive({
+          a <- p19 %>% filter(p16$P16_1_COD_1 != "")
+          b <- tam_base(a,
+                        input$filtroEdad5,
+                        input$filtroGen5,
+                        input$filtroNiv5,
+                        input$filtroTipoCliente5,
+                        input$filtroTipoProducto5)
+          return(b)
+  }) 
+  
+  
+  
+  
+  
   output$txt_p16_1 <- renderText(paste("Tamaño de base: ", tb_tam_base_16a18()[1],
                                        ". Esto es un tamaño de ",tb_tam_base_16a18()[3],".",sep=""))
   
@@ -635,6 +666,14 @@ shinyServer(function(input, output,session){
   
   output$txt_p20 <- renderText(paste("Tamaño de base: ", tb_tam_base_19a21()[1],
                                      ". Esto es un tamaño de ",tb_tam_base_19a21()[3],".",sep=""))
+  
+  
+  
+  output$txt_open1 <- renderText(paste("Tamaño de base: ", tb_tam_base_open()[1],
+                                     ". Esto es un tamaño de ",tb_tam_base_open()[3],".",sep=""))
+  
+  output$txt_open2 <- renderText(paste("Tamaño de base: ", tb_tam_base_open2()[1],
+                                       ". Esto es un tamaño de ",tb_tam_base_open2()[3],".",sep=""))
   
   data_p16_1 <- reactive({
     a <- filtro(base_evap,
@@ -990,5 +1029,490 @@ shinyServer(function(input, output,session){
   
   
   
+  
+  
+  
+  
+  
+  #preguntas abiertas p16
+  
+  
+  data_p16 <- reactive({
+          bat <- filtro(p16,
+                        input$filtroEdad5,
+                        input$filtroGen5,
+                        input$filtroNiv5,
+                        input$filtroTipoCliente5,
+                        input$filtroTipoProducto5)
+          return(bat)
+  })
+  
+  
+output$text2<-renderText({
+        graphdata <- data_p16()
+        if(length(graphdata) == 0) graphdata <- NULL
+        verifica_checkbox(graphdata, 0, 
+                          input$filtroEdad5,
+                          input$filtroGen5,
+                          input$filtroNiv5,
+                          input$filtroTipoCliente5,
+                          input$filtroTipoProducto5)
+        g <- abiertas(graphdata[,11:27],1)
+        g <- paste("COMUNES A LA CATEGORÍA: ",
+                   as.character(round(g[g$linea=="COMUNES A LA CATEGORÍA",2],
+                                      digits=0)),
+                   "%",
+                   sep="")
+})
+#         g <- as.integer(g["COMUNES A LA CATEGORÍA",2])
+#         paste(g)
+
+output$text3<-renderText({
+        graphdata <- data_p16()
+        if(length(graphdata) == 0) graphdata <- NULL
+        verifica_checkbox(graphdata, 0, 
+                          input$filtroEdad5,
+                          input$filtroGen5,
+                          input$filtroNiv5,
+                          input$filtroTipoCliente5,
+                          input$filtroTipoProducto5)
+        g <- abiertas(graphdata[,11:27],1)
+        g <- paste("CORRECTO ESPECÍFICO: ",
+                   as.character(round(g[g$linea=="CORRECTO ESPECÍFICO",2],
+                                      digits=0)),
+                   "%",
+                   sep="")
+        
+})
+        
+output$text4<-renderText({
+        graphdata <- data_p16()
+        if(length(graphdata) == 0) graphdata <- NULL
+        verifica_checkbox(graphdata, 0, 
+                          input$filtroEdad5,
+                          input$filtroGen5,
+                          input$filtroNiv5,
+                          input$filtroTipoCliente5,
+                          input$filtroTipoProducto5)
+        g <- abiertas(graphdata[,11:27],1)
+        g <- paste("CORRECTO GENÉRICO: ",
+                   as.character(round(g[g$linea=="CORRECTO GENÉRICO",2],
+                                      digits=0)),
+                   "%",
+                   sep="")
+})
+
+
+
+output$text11<-renderText({
+        graphdata <- data_p16()
+        if(length(graphdata) == 0) graphdata <- NULL
+        verifica_checkbox(graphdata, 0, 
+                          input$filtroEdad5,
+                          input$filtroGen5,
+                          input$filtroNiv5,
+                          input$filtroTipoCliente5,
+                          input$filtroTipoProducto5)
+        g <- abiertas(graphdata[,11:27],1)
+        g <- paste("INCORRECTO: ",
+                   as.character(round(g[g$linea=="INCORRECTO",2],
+                                      digits=0)),
+                   "%",
+                   sep="")
+        
+})
+        
+        
+output$text12<-renderText({
+                graphdata <- data_p16()
+                if(length(graphdata) == 0) graphdata <- NULL
+                verifica_checkbox(graphdata, 0, 
+                                  input$filtroEdad5,
+                                  input$filtroGen5,
+                                  input$filtroNiv5,
+                                  input$filtroTipoCliente5,
+                                  input$filtroTipoProducto5)
+                g <- abiertas(graphdata[,11:27],1)
+                g <- paste("NO IDENTIFICADO: ",
+                           as.character(round(g[g$linea=="NO IDENTIFICADO",2],
+                                              digits=0)),
+                           "%",
+                           sep="")
+})
+        
+        
+  output$table2 <- renderTable({
+          graphdata <- data_p16()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+           g <- abiertas(graphdata[,11:27],1)
+           g <- g %>%
+                   filter(linea %in% c(list("LÍNEA BLANCA", "TELEFONÍA", "PANTALLAS","ELECTRÓNICA","CÓMPUTO",
+                                            "MUEBLES", "MOTOS", "ELECTRODOMÉSTICOS", "ACCESORIOS", "VIDEOJUEGOS", "LLANTAS", "OFERTAS Y PROMOCIONES",
+                                            "PRECIOS BAJOS", "FORMAS DE PAGO", "VARIEDAD DE MARCAS", "VARIEDAD DE PRODUCTOS", "FACILIDADES DE PAGO",
+                                            "CRÉDITO FÁCIL Y RÁPIDO","SERVICIOS BANCARIOS","CARACTERÍSTICAS DEL PRODUCTO","PRÉSTAMOS","INTERESES BAJOS",
+                                            "DESCUENTOS POR EL DÍA DE LAS MADRES","AL PERSONAL DE LA TIENDA", "DESCUENTOS POR EL DÍA DEL PADRE")))%>%
+                   arrange(linea)
+  },include.rownames=FALSE,include.colnames=F)
+
+  
+  
+  output$table4 <- renderTable({
+          graphdata <- data_p16()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],1)
+          g <- g %>%
+                  filter(linea %in% c(list("FAMILIA EN LA TIENDA VIENDO PRODUCTOS","PERSONAL PROMOCIONANDO ARTÍCULOS DENTRO DE LA TIENDA ELEKTRA",
+                                           "FIESTA CON ESTÉREO QUE TERMINABAN COMPRANDO EN ELEKTRA",
+                                           "MUJER EN ELEKTRA PIDIENDO INFORMES DE UN ESTÉREO",
+                                           "VENDEDOR ATENDIENDO CLIENTES CON AMABILIDAD Y RESPETO DENTRO DE LA TIENDA ELEKTRA",
+                                           "ANUNCIOS DE LAS PANTALLAS EN FILA DE CAJAS",
+                                           "CUAUHTÉMOC BLANCO EN LA TIENDA",
+                                           "EMPLEADOS ACOMODANDO PRODUCTOS",
+                                           "NIÑOS CON TABLET HACIENDO TAREA",
+                                           "DESCUENTOS DE REGRESO A CLASES EN ELEKTRA",
+                                           "FAMILIAS FELICES EN SU CASA",
+                                           "PAREJA VIENDO PANTALLA QUE DICE 30% DE DESCUENTO",
+                                           "SANTA CLAUS Y LOS REYES MAGOS SE SURTEN EN ELEKTRA",
+                                           "SEÑORA LIMPIANDO SU CASA Y LE DA TIEMPO DE VER LA NOVELA",
+                                           "UNA PAREJA BESÁNDOSE Y EL CHAVO CON EL CASCO EN LA MANO",
+                                           "HIJOS COMPRANDO LICUADORA",
+                                           "PAREJA DANDO REGALOS",
+                                           "UNA FAMILIA PIDIENDO UN PRÉSTAMO",
+                                           "VIEJITA FELIZ CON ESTUFA NUEVA",
+                                           "CLIENTE COMPRA ESTÉREO Y SE LO LLEVAN GRATIS A SU CASA",
+                                           "UN CHAVO EN LA CALLE CON SU MOTO ITALIKA")))%>%
+                  arrange(linea)
+          },include.rownames=FALSE,include.colnames=F)
+   
+  
+  
+  
+  
+   
+  output$table5 <- renderTable({
+          graphdata <- data_p16()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],1)
+          g <- g %>%
+                  filter(linea %in% c(list("ABONOS CHIQUITOS PARA PAGAR POQUITO",
+                                           "TIENDA ELEKTRA",
+                                           "GUARDADITO",
+                                           "PAGO PUNTUAL",
+                                           "BANCO AZTECA",
+                                           "ITALIKA",
+                                           "ABIERTO DE 9 A 9, 365 DÍAS",
+                                           "COLORES AMARILLO Y ROJO",
+                                           "ENVÍO DE DINERO",
+                                           "CON ELEKTRA VIVES MEJOR",
+                                           "CONFIABLE",
+                                           "ENTREGA INMEDIATA",
+                                           "A CRÉDITO Y DE CONTADO ELEKTRA ES MÁS BARATO",
+                                           "EN LA COMPRA DE TU ITALIKA TE REGALAMOS EL CASCO")))%>%
+                  arrange(linea)
+          
+  },include.rownames=FALSE,include.colnames=F)
+
+  output$table10 <- renderTable({
+          graphdata <- data_p16()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],1)
+          g <- g %>%
+                  filter(linea %in% c(list( "INCORRECTO",
+                                            "COPPEL",
+                                            "EXPERIENCIA EN LA TIENDA",
+                                            "ROPA",
+                                            "DESDE HACE AÑOS ELEKTRA MEJORA TU VIDA",
+                                            "CALZADO",
+                                            "CHAVOS COMO SI ESTUVIERAN EN EL CINE",
+                                            "COMPARABAN 2 ESTÉREOS UNO DE ELEKTRA Y OTRO DE LA COMPETENCIA",
+                                            "JÓVENES CANTANDO Y BAILANDO",
+                                            "UNA CHAVA CON SU MOTO YAMAHA",
+                                            "NO IDENTIFICADO",
+                                            "ARMA LA FIESTA EN TU CUERPO",
+                                            "CARROS LLENOS, MÁS BARATO QUE EL SÚPER",
+                                            "CHAVO CON AUDIFONOS BEAT",
+                                            "ELEKTRA TE HACE MÁS FÁCIL LA VIDA",
+                                            "MUDANZA LLEGANDO A UNA CASA",
+                                            "SEÑORA QUE CAMBIA DE COMPAÑÍA TELEFÓNICA")))%>%
+                  arrange(linea)
+  },include.rownames=FALSE,include.colnames=F)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  # preguntas abiertas p19
+  
+  data_p19 <- reactive({
+          bat <- filtro(p19,
+                        input$filtroEdad5,
+                        input$filtroGen5,
+                        input$filtroNiv5,
+                        input$filtroTipoCliente5,
+                        input$filtroTipoProducto5)
+          return(bat)
+  })
+  
+  
+  output$text6<-renderText({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- paste("COMUNES A LA CATEGORÍA: ",
+                     as.character(round(g[g$linea=="COMUNES A LA CATEGORÍA",2],
+                                        digits=0)),
+                     "%",
+                     sep="")
+          })
+  
+  #         g <- as.integer(g["COMUNES A LA CATEGORÍA",2])
+  #         paste(g)
+  
+  output$text7<-renderText({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- paste("CORRECTO ESPECÍFICO: ",
+                     as.character(round(g[g$linea=="CORRECTO ESPECÍFICO",2],
+                                        digits=0)),
+                     "%",
+                     sep="")
+  })
+  
+  output$text8<-renderText({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- paste("CORRECTO GENÉRICO: ",
+                     as.character(round(g[g$linea=="CORRECTO GENÉRICO",2],
+                                        digits=0)),
+                     "%",
+                     sep="")
+  })
+  
+  
+  
+  
+  output$text9<-renderText({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- paste("INCORRECTO: ",
+                     as.character(round(g[g$linea=="INCORRECTO",2],
+                                        digits=0)),
+                     "%",
+                     sep="")
+  })
+  
+  
+  
+  
+  output$text20<-renderText({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- paste("NO IDENTIFICADO: ",
+                     as.character(round(g[g$linea=="NO IDENTIFICADO",2],
+                                        digits=0)),
+                     "%",
+                     sep="")
+  })
+  
+  
+  
+  
+  output$table6 <- renderTable({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- g %>%
+                  filter(linea %in% c(list("TELEFONÍA",
+                                           "LÍNEA BLANCA",
+                                           "PANTALLAS",
+                                           "CÓMPUTO",
+                                           "ELECTRÓNICA",
+                                           "MUEBLES",
+                                           "ELECTRODOMÉSTICOS",
+                                           "MOTOS",
+                                           "PERFUMERÍA",
+                                           "JUGUETERÍA",
+                                           "LLANTAS",
+                                           "OFERTAS Y PROMOCIONES",
+                                           "PRECIOS BAJOS",
+                                           "FORMAS DE PAGO",
+                                           "VARIEDAD DE MARCAS",
+                                           "CRÉDITO FÁCIL Y RÁPIDO",
+                                           "VARIEDAD DE PRODUCTOS",
+                                           "FAMILIA EN LA TIENDA",
+                                           "FACILIDADES DE PAGO",
+                                           "SERVICIOS BANCARIOS",
+                                           "CARACTERÍSTICAS DEL PRODUCTO",
+                                           "BUENA ATENCIÓN Y SERVICIO",
+                                           "PRÉSTAMOS",
+                                           "CERCANÍA DE TIENDAS",
+                                           "INTERESES BAJOS",
+                                           "DESCUENTOS POR EL DÍA DE LAS MADRES"))) %>%
+                  arrange(linea)
+  },include.rownames=FALSE,include.colnames=F)
+  
+  
+  
+  output$table7 <- renderTable({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- g %>%
+                  filter(linea %in% c(list( "NIÑOS CON TABLETS PROMOCIONANDO EL REGRSO A CLASES CON COPPEL",
+                                            "JÓVENES CANTANDO Y BAILANDO",
+                                            "ARTISTAS PROMOCIONANDO LOS PRODUCTOS Y DESCUENTOS DE COPPEL",
+                                            "MAITE PERRONI",
+                                            "JÓVENES DENTRO DE LA TIENDA VIENDO ROPA",
+                                            "CHAVA OFRECIENDO EL CRÉDITO DE COPPEL",
+                                            "JENNIFER LOPEZ DISEÑANDO",
+                                            "FAMILIA DÁNDOSE REGALOS DE NAVIDAD",
+                                            "VÁZQUEZ SOUNDS",
+                                            "PERSONAS ANUNCIANDO LOS PRODUCTOS DE TELEFONÍA Y LOS DESCUENTOS",
+                                            "COMPARTE LA FELICIDAD CON TU FAMILIA Y CON COPPEL",
+                                            "NIÑOS USANDO AMORÓMETRO",
+                                            "EN MÉXICO LAS FAMILIAS SALEN A TRABAJAR, EN COPPEL RECONOCEN TU ESFUERZO",
+                                            "NIÑOS JUGANDO DENTRO DE LA TIENDA Y NO SE ROMPÍAN LOS PRODUCTOS",
+                                            "FAMILIA COMPRANDO XBOX PARA DÍA DEL NIÑO")))%>%
+                  arrange(linea)
+  },include.rownames=FALSE,include.colnames=F)
+  
+  
+  
+  
+  
+  
+  output$table8 <- renderTable({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- g %>%
+                  filter(linea %in% c(list("ROPA",
+                                           "CALZADO",
+                                           "TARJETA COPPEL",
+                                           "TIENDA COPPEL",
+                                           "COPPEL MEJORA TU VIDA",
+                                           "PROMOCIONES DE VERANO",
+                                           "TIENDA COPPEL CANADA",
+                                           "ROPA DE TEMPORADA",
+                                           "VENDEDOR ATENDIENDO CLIENTES",
+                                           "CONFIABLE",
+                                           "COPPEL RENUEVA TU HOGAR",
+                                           "AMARILLO Y AZÚL",
+                                           "TIPS",
+                                           "VISTE A LA MODA CON COPPEL",
+                                           "ILUMINA TU NAVIDAD CON COPPEL")))%>%
+                  arrange(linea)
+          
+  },include.rownames=FALSE,include.colnames=F)
+  
+  output$table9 <- renderTable({
+          graphdata <- data_p19()
+          if(length(graphdata) == 0) graphdata <- NULL
+          verifica_checkbox(graphdata, 0, 
+                            input$filtroEdad5,
+                            input$filtroGen5,
+                            input$filtroNiv5,
+                            input$filtroTipoCliente5,
+                            input$filtroTipoProducto5)
+          g <- abiertas(graphdata[,11:27],2)
+          g <- g %>%
+                  filter(linea %in% c(list( "INCORRECTO",
+                          "PAGOS CHIQUITOS",
+                          "ENTREGA INMEDIATA",
+                          "TRABAJDORES EN SUS OFICINAS",
+                          "PAGOS PUNTUALES",
+                          "NO IDENTIFICADO",
+                          "PARA ESOS MOMENTOS INOLVIDABLES CON TU FAMILIA",
+                          "UN CUARTO VACÍO Y DE REPENTE APARECEN APARATOS",
+                          "SEÑORA LAVANDO A MANO")))%>%
+                  arrange(linea)
+  },include.rownames=FALSE,include.colnames=F)
+ 
   
 })
