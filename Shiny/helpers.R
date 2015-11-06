@@ -1170,6 +1170,7 @@ fgrafpub<-function(df,marca,medios){
                    filename=NULL,
                    main.cex=1.7,
                    cat.cex=1.5,
+                   cex = 2,
                    main.pos=c(.8,1),
                    main=paste('En total se alcanzan ', tot,'personas\n',paste(titulo[1:min(length(unlist(medios)),3)],collapse='\n')))
   return(grid.draw(d1))

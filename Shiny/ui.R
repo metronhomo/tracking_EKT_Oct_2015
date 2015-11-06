@@ -280,7 +280,8 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                            h3(textOutput("txt_p20"),align="center"),
                                            column(4,plotOutput("plot_p20",height=100,width=1300))),
                                   tabPanel("Recordación de Contenidos EKT",
-                                           h3(textOutput("txt_open2"),align="center"), fluidPage(
+                                           #h3(textOutput("txt_open2"),align="center"), 
+                                           fluidPage(
                                                    column(12,
                                                           wellPanel(style = "background-color: white;",align="center",tags$ul(
                                                                   tags$li("Correctos y específicos: Recordación puntual de elementos contenidos.",
@@ -307,7 +308,7 @@ shinyUI(navbarPage("",theme = shinytheme("flatly"),
                                           h2(textOutput("text12"),align="center",style = "background-color: #2c3e50;color:white")),
                                   
                                   tabPanel("Recordación de Contenidos Coppel",
-                                           h3(textOutput("txt_open1"),align="center"),
+                                           #h3(textOutput("txt_open1"),align="center"),
                                            fluidPage(
                                                    column(12,
                                                           wellPanel(style = "background-color: white;",align="center",tags$ul(
